@@ -1,0 +1,11 @@
+<!-- res/drawable/custom_edittext_border.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" /> <!-- Màu nền của AutoCompleteTextView -->
+            <stroke
+                android:width="2dp"
+                android:color="@color/green" /> <!-- Màu của đường viền -->
+        </shape>
+    </item>
+</layer-list>

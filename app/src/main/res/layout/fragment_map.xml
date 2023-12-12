@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
+
+    tools:context=".FragmentMap">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/back"
+            />
+
+        <TextView
+            android:id="@+id/ChartTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24dp"
+            android:text="Chart"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/selectAttribute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/backBtn"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/green"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Select Attribute"
+                app:hintTextColor="@color/green">
+                <AutoCompleteTextView
+                    android:id="@+id/auto_complete_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/selectTimeFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectAttribute"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/green"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Time Frame"
+                app:hintTextColor="@color/green">
+                <AutoCompleteTextView
+                    android:id="@+id/auto_complete_txt_TimeFrame"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/selectTxt"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Select Attribute"-->
+<!--            android:textColor="@color/grey"-->
+<!--            android:layout_below="@+id/backBtn"-->
+<!--            android:layout_marginLeft="60dp"-->
+<!--            />-->
+
+
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

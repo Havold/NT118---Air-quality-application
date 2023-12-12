@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/bottom_home"
+        android:title="@string/home"
+        android:icon="@drawable/baseline_home_24"
+        />
+
+    <item android:id="@+id/bottom_dashboard"
+        android:title="@string/dashboard"
+        android:icon="@drawable/baseline_dashboard_24"
+        />
+
+    <item android:id="@+id/bottom_map"
+        android:title="@string/map"
+        android:icon="@drawable/baseline_map_24"
+        />
+</menu>
