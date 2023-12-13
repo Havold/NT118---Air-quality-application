@@ -18,6 +18,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -91,8 +93,14 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
         LatLng UIT = new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getCenter()[1],(Double) mapResponse.getOptions().getDefaultOptions().getCenter()[0]);
 
         // Thêm Marker cho từng điểm
-        this.gMap.addMarker(new MarkerOptions().position(Weather).title("Default Weather"));
-        this.gMap.addMarker(new MarkerOptions().position(Light).title("Light"));
+        this.gMap.addMarker(new MarkerOptions()
+                .position(Weather)
+                .title("Default Weather")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.sunny_mini)));
+        this.gMap.addMarker(new MarkerOptions()
+                .position(Light)
+                .title("Light")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mini)));
         this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
 
         // Cài đặt zoom và di chuyển camera đến vùng chứa các điểm
