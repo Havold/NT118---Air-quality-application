@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-
+import com.example.natural.FragmentHome;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +39,10 @@ public class MainActivity2 extends AppCompatActivity {
         viewPager2.setAdapter(viewPagerAdapter);
         bottomNavigationView =  findViewById(R.id.bottomNav);
         frameLayout = findViewById(R.id.frameLayout);
+//        // Hiển thị FragmentHome khi Activity được tạo
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.frameLayout, new FragmentHome()).commit();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

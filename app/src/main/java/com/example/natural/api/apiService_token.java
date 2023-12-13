@@ -1,5 +1,7 @@
 package com.example.natural.api;
 
+import com.example.natural.model.MapResponse;
+import com.example.natural.model.MapResponse;
 import com.example.natural.model.token;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -35,4 +38,9 @@ public interface apiService_token {
     @GET("auth/realms/master/protocol/openid-connect/logout")
     Call<token> logout(@Query("post_logout_redirect_uri") String url,
                        @Query("id_token_hint") String token);
+
+    @GET("api/master/map")
+    Call<MapResponse> getMapData(
+            @Header("Authorization") String authorization
+    );
 }
