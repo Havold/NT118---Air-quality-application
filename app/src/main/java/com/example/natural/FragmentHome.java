@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.natural.api.apiService_token;
 import com.example.natural.model.MapResponse;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,7 +51,7 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull GoogleMap googleMap) {
         this.gMap = googleMap;
         getMapOption(gMap);
-
+//
 //        LatLng HCM = new LatLng( 9.812116855723476, 105.82270937360353 );
 //        this.gMap.addMarker(new MarkerOptions().position(HCM).title("Trường Đại Học Công Nghệ Thông Tin"));
 //        gMap.getUiSettings().setZoomControlsEnabled(true);
@@ -80,22 +81,47 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
     }
 
     private void addDataOnMap(GoogleMap gMap, MapResponse mapResponse) {
-        double center_x,center_y;
-        center_x=mapResponse.getOptions().getDefaultOptions().getCenter()[0];
-        center_y=mapResponse.getOptions().getDefaultOptions().getCenter()[1];
-        LatLng UIT = new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getCenter()[1],(Double) mapResponse.getOptions().getDefaultOptions().getCenter()[0]);
-        LatLngBounds UITBounds = new LatLngBounds(
-                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[1],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[0]),
-                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[3],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[2])
-        );
+//        double center_x,center_y;
+//        center_x=mapResponse.getOptions().getDefaultOptions().getCenter()[0];
+//        center_y=mapResponse.getOptions().getDefaultOptions().getCenter()[1];
 
-        //add Maker
-        gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float) mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
-        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float)mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
-        gMap.getUiSettings().setZoomControlsEnabled(true);
-        gMap.getUiSettings().setCompassEnabled(true);
-        gMap.setLatLngBoundsForCameraTarget(UITBounds);
+        // Tạo các LatLng cho 3 điểm
+        LatLng Weather = new LatLng(10.869778736885038, 106.80280655508835);
+        LatLng Light = new LatLng(10.869905172970164, 106.80345028525176);
+        LatLng UIT = new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getCenter()[1],(Double) mapResponse.getOptions().getDefaultOptions().getCenter()[0]);
+
+        // Thêm Marker cho từng điểm
+        this.gMap.addMarker(new MarkerOptions().position(Weather).title("Default Weather"));
+        this.gMap.addMarker(new MarkerOptions().position(Light).title("Light"));
+        this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
+
+        // Cài đặt zoom và di chuyển camera đến vùng chứa các điểm
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(Weather);
+        builder.include(Light);
+        builder.include(UIT);
+        LatLngBounds bounds = builder.build();
+
+        int padding = 50; // Padding để đảm bảo tất cả các Marker đều nhìn thấy
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        this.gMap.moveCamera(cameraUpdate);
+
+        // Cài đặt các tùy chọn UI khác nếu cần
+        this.gMap.getUiSettings().setZoomControlsEnabled(true);
+        this.gMap.getUiSettings().setCompassEnabled(true);
+
+//        LatLngBounds UITBounds = new LatLngBounds(
+//                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[1],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[0]),
+//                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[3],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[2])
+//        );
+//
+//        //add Maker
+//        gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
+//        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float) mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
+//        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float)mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
+//        gMap.getUiSettings().setZoomControlsEnabled(true);
+//        gMap.getUiSettings().setCompassEnabled(true);
+//        gMap.setLatLngBoundsForCameraTarget(UITBounds);
 
     }
 
