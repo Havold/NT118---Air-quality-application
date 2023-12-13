@@ -1,13 +1,20 @@
 package com.example.natural;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -22,6 +29,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import retrofit2.Call;
@@ -32,7 +40,7 @@ import retrofit2.Response;
 public class FragmentHome extends Fragment implements OnMapReadyCallback {
     GoogleMap gMap;
     FrameLayout map;
-
+    Button showBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -110,6 +118,14 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
         builder.include(UIT);
         LatLngBounds bounds = builder.build();
 
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                openInforDialog();
+                return true;
+            }
+        });
+
         int padding = 50; // Padding để đảm bảo tất cả các Marker đều nhìn thấy
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
         this.gMap.moveCamera(cameraUpdate);
@@ -117,6 +133,8 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
         // Cài đặt các tùy chọn UI khác nếu cần
         this.gMap.getUiSettings().setZoomControlsEnabled(true);
         this.gMap.getUiSettings().setCompassEnabled(true);
+
+
 
 //        LatLngBounds UITBounds = new LatLngBounds(
 //                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[1],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[0]),
@@ -133,6 +151,31 @@ public class FragmentHome extends Fragment implements OnMapReadyCallback {
 
     }
 
+    private void openInforDialog() {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.infor_dialog_weather);
 
+        Window window = dialog.getWindow();
+        if (window==null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity= Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+        dialog.setCancelable(true);
+        showBtn = (Button) dialog.findViewById(R.id.showBtn);
+        showBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
 
 }

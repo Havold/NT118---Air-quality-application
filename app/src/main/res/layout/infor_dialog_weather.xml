@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_white_corner_16"
+    android:layout_margin="16dp"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Summary Information"
+        android:padding="12dp"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_green_corner_16"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="Temperature:"/>
+
+            <TextView
+                android:id="@+id/tempTxt"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="29"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="Rainfall:"/>
+
+            <TextView
+                android:id="@+id/rainfallTxt"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="23.8"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="Humidity:"/>
+
+            <TextView
+                android:id="@+id/humidityTxt"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="29%"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="Wind speed:"/>
+
+            <TextView
+                android:id="@+id/windspeedTxt"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/black"
+                android:gravity="left"
+                android:text="9km/h"/>
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/showBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cornerRadius="16dp"
+            android:backgroundTint="@color/green"
+            android:textStyle="bold"
+            android:text="Show more detail"/>
+    </LinearLayout>
+
+</LinearLayout>
