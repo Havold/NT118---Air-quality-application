@@ -79,17 +79,59 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/selectEnding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectAttribute"
+            android:layout_toRightOf="@+id/selectTimeFrame"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEnding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/green"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Endings"
+                app:hintTextColor="@color/green">
+                <AutoCompleteTextView
+                    android:id="@+id/selectEndingTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-<!--        <TextView-->
-<!--            android:id="@+id/selectTxt"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Select Attribute"-->
-<!--            android:textColor="@color/grey"-->
-<!--            android:layout_below="@+id/backBtn"-->
-<!--            android:layout_marginLeft="60dp"-->
-<!--            />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/datePickerButton"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_toRightOf="@id/selectTimeFrame"-->
+        <!--            android:layout_below="@+id/selectAttribute"-->
+        <!--            android:text="JAN 01 2023"-->
+        <!--            android:textColor="@color/black"-->
+        <!--            android:backgroundTint="@android:color/transparent"-->
+        <!--            app:cornerRadius = "0dp"-->
+        <!--            style="?android:spinnerStyle"-->
+        <!--            android:onClick="openDatePicker"-->
+        <!--            />-->
+
+
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/selectTxt"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="Select Attribute"-->
+        <!--            android:textColor="@color/grey"-->
+        <!--            android:layout_below="@+id/backBtn"-->
+        <!--            android:layout_marginLeft="60dp"-->
+        <!--            />-->
 
 
 
