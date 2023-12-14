@@ -90,6 +90,7 @@ public class LogInActivity extends AppCompatActivity {
                         PreferenceUtils.saveToken(token);
                         loadingAlert.CloseAlertDialog();
                         Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
+                        intent.putExtra("accessToken", token);
                         startActivity(intent);
                     }
                 } else {

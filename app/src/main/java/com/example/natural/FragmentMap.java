@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -172,9 +174,19 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                gotoHomeFragment();
+                // Cập nhật item trong BottomNavigationView
+                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNav);
+                bottomNavigationView.setSelectedItemId(R.id.bottom_home);
             }
         });
         dialog.show();
+    }
+
+    private void gotoHomeFragment() {
+        Fragment homeFragment = new FragmentHome();
+        FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+        fm.replace(R.id.frameLayout,homeFragment).commit();
     }
 
 }

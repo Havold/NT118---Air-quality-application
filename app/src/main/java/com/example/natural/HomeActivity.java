@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,9 +34,23 @@ public class HomeActivity extends AppCompatActivity {
     Button signOutBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+
+        // Trong HomeActivity
+        FragmentHome fragmentHome = new FragmentHome();
+
+        // Nhận dữ liệu
+        Intent intent = getIntent();
+        String accessToken = intent.getStringExtra("accessToken");
+
+        // Tạo Bundle và đặt thông tin vào Bundle
+        Bundle bundle = new Bundle();
+        bundle.putString("accessToken", accessToken);
+
+        // Gán Bundle cho Fragment
+        fragmentHome.setArguments(bundle);
+
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPage);
         viewPagerAdapter = new ViewPagerAdapter(this);
@@ -48,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             // Add FragmentMap if there is no saved instance state
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, new FragmentHome())
+                    .replace(R.id.frameLayout, fragmentHome)
                     .commit();
         }
 

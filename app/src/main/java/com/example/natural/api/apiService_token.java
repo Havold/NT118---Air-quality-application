@@ -2,6 +2,7 @@ package com.example.natural.api;
 
 import com.example.natural.model.MapResponse;
 import com.example.natural.model.MapResponse;
+import com.example.natural.model.WeatherResponse;
 import com.example.natural.model.token;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface apiService_token {
@@ -43,4 +45,9 @@ public interface apiService_token {
     Call<MapResponse> getMapData(
             @Header("Authorization") String authorization
     );
+
+    @GET("api/master/asset/{assetID}")
+    Call<WeatherResponse> getAsset(
+            @Path("assetID") String assetID,
+            @Header("Authorization") String authorization);//, @Header("Authorization") String auth);
 }

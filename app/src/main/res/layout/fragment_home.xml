@@ -35,55 +35,79 @@
             android:layout_marginTop="18dp"
             />
 
-        <ImageView
-            android:id="@+id/locationIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginRight="6dp"
-            android:layout_toLeftOf="@id/locationTxt"
-            android:background="@drawable/location"
-            />
 
-        <TextView
+
+        <LinearLayout
+            android:id="@+id/locationGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="36dp"
+            >
+
+            <ImageView
+                android:id="@+id/locationIcon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/location"
+                android:layout_marginTop="6dp"
+                />
+            <TextView
                 android:id="@+id/locationTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thu Duc"
                 android:textSize="24dp"
                 android:textStyle="bold"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="36dp"
                 />
 
+        </LinearLayout>
+
+
+
         <ImageView
+            android:id="@+id/whiteStroke"
             android:layout_width="120dp"
             android:layout_height="30dp"
-            android:layout_below="@id/locationTxt"
             android:background="@drawable/rectangle_2"
+            android:layout_below="@id/locationGroup"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             />
 
-        <TextView
-            android:id="@+id/status"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Updating"
-            android:textSize="14dp"
-            android:layout_below="@id/locationTxt"
-            android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"/>
+            android:orientation="horizontal"
+            android:layout_below="@+id/locationGroup"
+            android:layout_centerInParent="true"
+            >
 
-        <ImageView
-            android:layout_width="6dp"
-            android:layout_height="6dp"
-            android:background="@drawable/yellowball"
-            android:layout_toLeftOf="@id/status"
-            android:layout_below="@id/locationTxt"
-            android:layout_marginTop="27dp"
-            android:layout_marginRight="8dp"
-            />
+            <ImageView
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:background="@drawable/yellowball"
+                android:layout_below="@id/locationGroup"
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="8dp"
+                />
+
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updating"
+                android:textSize="14dp"
+                android:layout_marginTop="10dp"
+                />
+        </LinearLayout>
+
+
+
+
+
 
 
         <ImageView
@@ -91,7 +115,7 @@
             android:layout_width="320dp"
             android:layout_height="300dp"
             android:background="@drawable/sunny"
-            android:layout_below="@id/locationTxt"
+            android:layout_below="@id/locationGroup"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             />
@@ -105,7 +129,7 @@
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:layout_toRightOf="@id/temperate"
-            android:layout_below="@id/locationTxt"
+            android:layout_below="@id/locationGroup"
             android:layout_marginTop="260dp"
             />
 
@@ -118,7 +142,7 @@
             android:textSize="100dp"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/locationTxt"
+            android:layout_below="@id/locationGroup"
             android:layout_marginTop="260dp"
             />
 
@@ -152,111 +176,137 @@
             android:layout_marginTop="16dp"
             />
 
-        <ImageView
-            android:id="@+id/humidityIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/humidity"
+
+        <LinearLayout
+            android:id="@+id/windGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/date"
+            android:layout_marginTop="32dp"
+            android:layout_toLeftOf="@id/humidityGroup"
+            android:layout_marginRight="60dp"
+            >
+
+            <ImageView
+                android:id="@+id/windIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/wind"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:id="@+id/windTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9km/h"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:id="@+id/windTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wind"
+                android:textSize="16dp"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/humidityGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/date"
             android:layout_marginTop="32dp"
-            />
+            >
 
-        <TextView
-            android:id="@+id/humidityTxt"
+            <ImageView
+                android:id="@+id/humidityIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/humidity"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:id="@+id/humidityTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="29%"
+                android:textSize="18dp"
+                android:textStyle="bold"
+
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:id="@+id/humidityTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity"
+                android:textSize="16dp"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_horizontal"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="29%"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/humidityIcon"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_marginTop="4dp"
-            />
-
-        <TextView
-            android:id="@+id/humidityTitleTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Humidity"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/humidityTxt"
-            android:textSize="16dp"
-            android:textColor="@color/grey"
-            />
-
-        <ImageView
-            android:id="@+id/windIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/wind"
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/humidityGroup"
             android:layout_below="@id/date"
             android:layout_marginTop="32dp"
-            android:layout_toLeftOf="@id/humidityIcon"
-            android:layout_marginRight="84dp"
-            />
+            android:layout_marginLeft="60dp"
+            >
 
-        <TextView
-            android:id="@+id/windTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9km/h"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_below="@id/windIcon"
-            android:layout_toLeftOf="@id/humidityIcon"
-            android:layout_marginRight="70dp"
-            android:layout_marginTop="4dp"
-            />
+            <ImageView
+                android:id="@+id/rainfallIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/chance_of_rain"
+                android:layout_gravity="center_horizontal"
+                />
 
-        <TextView
-            android:id="@+id/windTitleTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wind"
-            android:textSize="16dp"
-            android:layout_below="@id/windTxt"
-            android:layout_toLeftOf="@id/humidityIcon"
-            android:layout_marginRight="78dp"
-            android:textColor="@color/grey"
-            />
+            <TextView
+                android:id="@+id/rainfallTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23.8"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                />
+
+            <TextView
+                android:id="@+id/rainfallTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rainfall"
+                android:textSize="16dp"
+                android:textColor="@color/grey"
+                android:layout_gravity="center_horizontal"
+                />
 
 
-        <ImageView
-            android:id="@+id/chanceOfRainIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chance_of_rain"
-            android:layout_below="@id/date"
-            android:layout_marginTop="32dp"
-            android:layout_toRightOf="@id/humidityIcon"
-            android:layout_marginLeft="84dp"
-            />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/chanceOfRainTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="23.8"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:layout_below="@id/windIcon"
-            android:layout_toRightOf="@id/humidityIcon"
-            android:layout_marginLeft="78dp"
-            android:layout_marginTop="4dp"
-            />
 
-        <TextView
-            android:id="@+id/chanceOfRainTitleTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chance of Rain"
-            android:textSize="16dp"
-            android:layout_below="@id/windTxt"
-            android:layout_toRightOf="@id/humidityIcon"
-            android:layout_marginLeft="42dp"
-            android:textColor="@color/grey"
-            />
+
+
+
+
+
+
 
     </RelativeLayout>
 
