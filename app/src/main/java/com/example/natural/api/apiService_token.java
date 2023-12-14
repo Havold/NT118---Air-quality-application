@@ -2,6 +2,7 @@ package com.example.natural.api;
 
 import com.example.natural.model.MapResponse;
 import com.example.natural.model.MapResponse;
+import com.example.natural.model.UserResponse;
 import com.example.natural.model.WeatherResponse;
 import com.example.natural.model.token;
 import com.google.gson.Gson;
@@ -50,4 +51,9 @@ public interface apiService_token {
     Call<WeatherResponse> getAsset(
             @Path("assetID") String assetID,
             @Header("Authorization") String authorization);//, @Header("Authorization") String auth);
+
+    @GET("api/master/user/user")
+    Call<UserResponse> getUser(
+            @Header("Authorization") String authorization);//, @Header("Authorization") String auth);
+
 }

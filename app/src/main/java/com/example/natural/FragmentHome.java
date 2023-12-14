@@ -3,14 +3,19 @@ package com.example.natural;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.natural.api.apiService_token;
+import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.WeatherResponse;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,6 +27,8 @@ import retrofit2.Response;
 
 
 public class FragmentHome extends Fragment {
+    ImageView userIcon;
+    SharedViewModel sharedViewModel;
     TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date;
     apiService_token apiServiceToken;
 
@@ -30,19 +37,38 @@ public class FragmentHome extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        tv_place=view.findViewById(R.id.locationTxt);
-        tv_temp=view.findViewById(R.id.temperate);
-        tv_wind=view.findViewById(R.id.windTxt);
-        tv_humidity=view.findViewById(R.id.humidityTxt);
-        tv_rainfall=view.findViewById(R.id.rainfallTxt);
-        tv_date=view.findViewById(R.id.date);
-        // Nhận dữ liệu từ Bundle
-        if (getArguments() != null) {
-            String accessToken = getArguments().getString("accessToken");
-            // Sử dụng thông tin accessToken ở đây
-            // Ví dụ:
+
+        // Khởi tạo ViewModel
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        // Nhận dữ liệu từ ViewModel
+        String accessToken = sharedViewModel.getAccessToken();
+
+        tv_place = view.findViewById(R.id.locationTxt);
+        tv_temp = view.findViewById(R.id.temperate);
+        tv_wind = view.findViewById(R.id.windTxt);
+        tv_humidity = view.findViewById(R.id.humidityTxt);
+        tv_rainfall = view.findViewById(R.id.rainfallTxt);
+        tv_date = view.findViewById(R.id.date);
+        userIcon = view.findViewById(R.id.userIcon);
+
+        if (accessToken!=null) {
             callWeatherAPI(accessToken);
         }
+//        // Nhận dữ liệu từ Bundle
+//        if (getArguments() != null) {
+//            String accessToken = getArguments().getString("accessToken");
+//            // Sử dụng thông tin accessToken ở đây
+//            // Ví dụ:
+//            callWeatherAPI(accessToken);
+//        }
+
+        userIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gotoProfileFragment();
+
+            }
+        });
 
         return view;
     }
@@ -89,5 +115,11 @@ public class FragmentHome extends Fragment {
             e.printStackTrace();
             return "";
         }
+    }
+
+    private void gotoProfileFragment() {
+        Fragment profileFragment = new FragmentProfile();
+        FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
+        fm.replace(R.id.frameLayout,profileFragment).commit();
     }
 }

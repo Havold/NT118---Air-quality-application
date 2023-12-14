@@ -11,12 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/back"
-            />
 
         <TextView
             android:id="@+id/ChartTitle"
@@ -33,7 +27,8 @@
             android:id="@+id/selectAttribute"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/backBtn"
+            android:layout_below="@id/ChartTitle"
+            android:layout_marginTop="20dp"
             >
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

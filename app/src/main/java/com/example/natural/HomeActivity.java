@@ -2,6 +2,7 @@ package com.example.natural;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
@@ -19,9 +20,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
+import com.example.natural.model.SharedViewModel;
 
 public class HomeActivity extends AppCompatActivity {
-
+    private SharedViewModel sharedViewModel;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     ViewPagerAdapter viewPagerAdapter;
@@ -37,19 +39,27 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // Khởi tạo ViewModel
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
         // Trong HomeActivity
         FragmentHome fragmentHome = new FragmentHome();
+        FragmentProfile fragmentProfile = new FragmentProfile();
 
         // Nhận dữ liệu
         Intent intent = getIntent();
         String accessToken = intent.getStringExtra("accessToken");
 
-        // Tạo Bundle và đặt thông tin vào Bundle
-        Bundle bundle = new Bundle();
-        bundle.putString("accessToken", accessToken);
+        // Truyền dữ liệu vào ViewModel khi cần
+        sharedViewModel.setAccessToken(accessToken);
 
-        // Gán Bundle cho Fragment
-        fragmentHome.setArguments(bundle);
+//        // Tạo Bundle và đặt thông tin vào Bundle
+//        Bundle bundle = new Bundle();
+//        bundle.putString("accessToken", accessToken);
+//
+//        // Gán Bundle cho Fragment
+//        fragmentHome.setArguments(bundle);
+//        fragmentProfile.setArguments(bundle);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPage);
@@ -95,6 +105,7 @@ public class HomeActivity extends AppCompatActivity {
                     case 0:
                     case 1:
                     case 2:
+                    case 3:
                         tabLayout.getTabAt(position).select();
                 }
                 super.onPageSelected(position);
@@ -120,6 +131,11 @@ public class HomeActivity extends AppCompatActivity {
                 else if (item.getItemId()==R.id.bottom_graph) {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frameLayout, new FragmentGraph()).commit();
+                    return true;
+                }
+                else if (item.getItemId()==R.id.bottom_profile) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frameLayout, new FragmentProfile()).commit();
                     return true;
                 }
                 return false;
