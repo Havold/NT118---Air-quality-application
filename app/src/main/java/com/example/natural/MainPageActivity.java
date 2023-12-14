@@ -1,6 +1,5 @@
 package com.example.natural;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -96,7 +94,7 @@ public class MainPageActivity extends AppCompatActivity {
 
     private void navigateToSecondActivity() {
         finish();
-        Intent intent = new Intent(MainPageActivity.this,MainActivity2.class);
+        Intent intent = new Intent(MainPageActivity.this, HomeActivity.class);
         startActivity(intent);
     }
 

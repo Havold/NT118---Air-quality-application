@@ -1,108 +1,180 @@
 package com.example.natural;
 
-import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import com.example.natural.api.apiService_token;
+import com.example.natural.model.MapResponse;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.Calendar;
-
-public class FragmentMap extends Fragment {
-
-    private DatePickerDialog.OnDateSetListener mDateSetListener;
-
-    AutoCompleteTextView selectEndingTxt;
-    String[] items = {"Temperature","Humidity","Amount of rain"};
-    String[] itemsTime = {"Day","Month","Year"};
-    AutoCompleteTextView autoCompleteTxt;
-    AutoCompleteTextView autoCompleteTxtTime;
-
-    ArrayAdapter<String> adapterItems;
-    ArrayAdapter<String> adapterItemsTime;
-    Button tmp;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
+public class FragmentMap extends Fragment implements OnMapReadyCallback {
+    GoogleMap gMap;
+    FrameLayout map;
+    Button showBtn;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-        autoCompleteTxt = view.findViewById(R.id.auto_complete_txt);
-        autoCompleteTxtTime = view.findViewById(R.id.auto_complete_txt_TimeFrame);
-        selectEndingTxt = view.findViewById(R.id.selectEndingTxt);
+        map = view.findViewById(R.id.map);
 
-        adapterItems = new ArrayAdapter<String>(requireContext(), R.layout.list_item,items);
-        adapterItemsTime = new ArrayAdapter<String>(requireContext(), R.layout.list_item,itemsTime);
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
 
-
-        autoCompleteTxt.setAdapter(adapterItems);
-        autoCompleteTxtTime.setAdapter(adapterItemsTime);
-
-        // Khởi tạo DatePickerDialog khi nhấp vào selectEndingTxt
-        selectEndingTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
-        // Khởi tạo DatePickerDialog.OnDateSetListener
-// Khởi tạo DatePickerDialog
-        mDateSetListener = (view1, year, month, dayOfMonth) -> {
-            // Cập nhật ngày vào AutoCompleteTextView
-            String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
-            selectEndingTxt.setText(selectedDate);
-        };
-        
-        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext().getApplicationContext(), "Attribute: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        autoCompleteTxtTime.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext().getApplicationContext(), "Time Frame: "+item,Toast.LENGTH_SHORT).show();
-            }
-        });
         return view;
     }
 
-    private void showDatePickerDialog() {
-        // Lấy ngày hiện tại
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        this.gMap = googleMap;
+        getMapOption(gMap);
+//
+//        LatLng HCM = new LatLng( 9.812116855723476, 105.82270937360353 );
+//        this.gMap.addMarker(new MarkerOptions().position(HCM).title("Trường Đại Học Công Nghệ Thông Tin"));
+//        gMap.getUiSettings().setZoomControlsEnabled(true);
+//        gMap.getUiSettings().setCompassEnabled(true);
+//        this.gMap.moveCamera(CameraUpdateFactory.newLatLng(HCM));
+    }
 
-        // Tạo DatePickerDialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                mDateSetListener,
-                year, month, day);
+    private void getMapOption(GoogleMap gMap) {
+        apiService_token.api_token.getMapData("").enqueue(new Callback<MapResponse>() {
+            @Override
+            public void onResponse(Call<MapResponse> call, Response<MapResponse> response) {
+                Toast.makeText(requireContext(),"Call API Success", Toast.LENGTH_SHORT).show();
 
-        // Đặt màu nền của DatePickerDialog
-        datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                MapResponse mapResponse = response.body();
 
-        // Hiển thị DatePickerDialog
-        datePickerDialog.show();
+                if (mapResponse!=null) {
+                    addDataOnMap(gMap,mapResponse);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<MapResponse> call, Throwable t) {
+                Toast.makeText(requireContext(),"Call API Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void addDataOnMap(GoogleMap gMap, MapResponse mapResponse) {
+//        double center_x,center_y;
+//        center_x=mapResponse.getOptions().getDefaultOptions().getCenter()[0];
+//        center_y=mapResponse.getOptions().getDefaultOptions().getCenter()[1];
+
+        // Tạo các LatLng cho 3 điểm
+        LatLng Weather = new LatLng(10.869778736885038, 106.80280655508835);
+        LatLng Light = new LatLng(10.869905172970164, 106.80345028525176);
+        LatLng UIT = new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getCenter()[1],(Double) mapResponse.getOptions().getDefaultOptions().getCenter()[0]);
+
+        // Thêm Marker cho từng điểm
+        this.gMap.addMarker(new MarkerOptions()
+                .position(Weather)
+                .title("Default Weather")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.sunny_mini)));
+        this.gMap.addMarker(new MarkerOptions()
+                .position(Light)
+                .title("Light")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mini)));
+        this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
+
+        // Cài đặt zoom và di chuyển camera đến vùng chứa các điểm
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(Weather);
+        builder.include(Light);
+        builder.include(UIT);
+        LatLngBounds bounds = builder.build();
+
+        gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                openInforDialog();
+                return true;
+            }
+        });
+
+        int padding = 50; // Padding để đảm bảo tất cả các Marker đều nhìn thấy
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        this.gMap.moveCamera(cameraUpdate);
+
+        // Cài đặt các tùy chọn UI khác nếu cần
+        this.gMap.getUiSettings().setZoomControlsEnabled(true);
+        this.gMap.getUiSettings().setCompassEnabled(true);
+
+
+
+//        LatLngBounds UITBounds = new LatLngBounds(
+//                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[1],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[0]),
+//                new LatLng((Double) mapResponse.getOptions().getDefaultOptions().getBounds()[3],(Double) mapResponse.getOptions().getDefaultOptions().getBounds()[2])
+//        );
+//
+//        //add Maker
+//        gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
+//        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float) mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
+//        gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(UIT, (float)mapResponse.getOptions().getDefaultOptions().getMaxZoom()-2));
+//        gMap.getUiSettings().setZoomControlsEnabled(true);
+//        gMap.getUiSettings().setCompassEnabled(true);
+//        gMap.setLatLngBoundsForCameraTarget(UITBounds);
+
+    }
+
+    private void openInforDialog() {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.infor_dialog_weather);
+
+        Window window = dialog.getWindow();
+        if (window==null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity= Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+        dialog.setCancelable(true);
+        showBtn = (Button) dialog.findViewById(R.id.showBtn);
+        showBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
 }

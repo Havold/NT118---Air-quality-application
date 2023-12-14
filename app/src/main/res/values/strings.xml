@@ -30,4 +30,6 @@
     <string name="dashboard">Dashboard</string>
     <string name="map">Map</string>
     <string name="select">Select Item</string>
+    <string name="title_activity_demo_nav">demoNav</string>
+    <string name="graph">Graph</string>
 </resources>

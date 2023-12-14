@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +20,6 @@ import com.example.natural.api.apiService_token;
 import com.example.natural.model.LoadingAlert;
 import com.example.natural.model.token;
 import com.example.natural.shared_preference.PreferenceUtils;
-
-import org.w3c.dom.Text;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -92,7 +89,7 @@ public class LogInActivity extends AppCompatActivity {
                         String token = response.body().getAccess_token();
                         PreferenceUtils.saveToken(token);
                         loadingAlert.CloseAlertDialog();
-                        Intent intent = new Intent(LogInActivity.this,MainActivity2.class);
+                        Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
                         startActivity(intent);
                     }
                 } else {
