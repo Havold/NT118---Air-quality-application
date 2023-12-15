@@ -51,12 +51,12 @@
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/selectTimeFrame"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/selectAttribute"
             >
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="160dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
 
@@ -74,22 +74,50 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+<!--        Starting Selection-->
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/selectEnding"
-            android:layout_width="match_parent"
+            android:id="@+id/selectStarting"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/selectAttribute"
-            android:layout_toRightOf="@+id/selectTimeFrame"
+            android:layout_below="@id/selectTimeFrame"
+
             >
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/layoutEnding"
-                android:layout_width="match_parent"
+                android:id="@+id/layoutStarting"
+                android:layout_width="176dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/green"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Endings"
+                android:hint="Startings"
+                app:hintTextColor="@color/green">
+                <AutoCompleteTextView
+                    android:id="@+id/selectStartingTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!--        Ending Selection-->
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/selectEnding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/selectTimeFrame"
+            android:layout_toRightOf="@id/selectStarting"
+            >
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutEnding"
+                android:layout_width="170dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textColorHint="@color/black"
+                app:boxStrokeColor="@color/green"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:hint="Engdings"
                 app:hintTextColor="@color/green">
                 <AutoCompleteTextView
                     android:id="@+id/selectEndingTxt"
@@ -100,6 +128,31 @@
             </com.google.android.material.textfield.TextInputLayout>
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
+        <Button
+            android:id="@+id/showChartBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Chart"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:backgroundTint="@color/green"
+            android:layout_below="@id/selectStarting"
+            android:layout_marginTop="16dp"
+            >
+        </Button>
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/showChartBtn"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+        </FrameLayout>
 
         <!--        <Button-->
         <!--            android:id="@+id/datePickerButton"-->

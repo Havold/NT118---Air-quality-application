@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel;
 public class SharedViewModel extends ViewModel {
 
     private String accessToken;
+    String attribute,timeFrame;
+    int dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd;
 
     public String getAccessToken() {
         return accessToken;
@@ -14,5 +16,67 @@ public class SharedViewModel extends ViewModel {
         this.accessToken = accessToken;
     }
 
+    public String getAttribute() {
+        return attribute;
+    }
 
+    public void setAttribute(String attribute) {
+        this.attribute = attribute;
+    }
+
+    public String getTimeFrame() {
+        return timeFrame;
+    }
+
+    public void setTimeFrame(String timeFrame) {
+        this.timeFrame = timeFrame;
+    }
+
+    public int getDayStart() {
+        return dayStart;
+    }
+
+    public void setDayStart(int dayStart) {
+        this.dayStart = dayStart;
+    }
+
+    public int getMonthStart() {
+        return monthStart;
+    }
+
+    public void setMonthStart(int monthStart) {
+        this.monthStart = monthStart;
+    }
+
+    public int getYearStart() {
+        return yearStart;
+    }
+
+    public void setYearStart(int yearStart) {
+        this.yearStart = yearStart;
+    }
+
+    public int getDayEnd() {
+        return dayEnd;
+    }
+
+    public void setDayEnd(int dayEnd) {
+        this.dayEnd = dayEnd;
+    }
+
+    public int getMonthEnd() {
+        return monthEnd;
+    }
+
+    public void setMonthEnd(int monthEnd) {
+        this.monthEnd = monthEnd;
+    }
+
+    public int getYearEnd() {
+        return yearEnd;
+    }
+
+    public void setYearEnd(int yearEnd) {
+        this.yearEnd = yearEnd;
+    }
 }

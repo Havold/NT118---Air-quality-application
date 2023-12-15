@@ -135,7 +135,7 @@ public class WeatherResponse {
 
     public static class SunIrradiance {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private Meta meta;
         private long timestamp;
@@ -144,7 +144,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -163,7 +163,7 @@ public class WeatherResponse {
 
     public static class Rainfall {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private MetaRF meta;
         private long timestamp;
@@ -172,7 +172,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -191,7 +191,7 @@ public class WeatherResponse {
 
     private static class Notes {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private long timestamp;
 
@@ -199,7 +199,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -214,7 +214,7 @@ public class WeatherResponse {
 
     private static class UVIndex {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private MetaUV meta;
         private long timestamp;
@@ -223,7 +223,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -242,7 +242,7 @@ public class WeatherResponse {
 
     public static class SunAzimuth {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private Meta meta;
         private long timestamp;
@@ -251,7 +251,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -270,7 +270,7 @@ public class WeatherResponse {
 
     public static class SunZenith {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private Meta meta;
         private long timestamp;
@@ -279,7 +279,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -354,7 +354,7 @@ public class WeatherResponse {
 
     public static class Temperature {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private MetaTemp meta;
         private long timestamp;
@@ -363,7 +363,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -382,7 +382,7 @@ public class WeatherResponse {
 
     public static class Humidity {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private MetaRF meta;
         private long timestamp;
@@ -391,7 +391,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -456,7 +456,7 @@ public class WeatherResponse {
 
     public static class WindDirection {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private Meta meta;
         private long timestamp;
@@ -465,7 +465,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -484,7 +484,7 @@ public class WeatherResponse {
 
     public static class WindSpeed {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private MetaRF meta;
         private long timestamp;
@@ -493,7 +493,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 
@@ -512,7 +512,7 @@ public class WeatherResponse {
 
     public static class SunAltitude {
         private String type;
-        private double value;
+        private float value;
         private String name;
         private Meta meta;
         private long timestamp;
@@ -521,7 +521,7 @@ public class WeatherResponse {
             return type;
         }
 
-        public double getValue() {
+        public float getValue() {
             return value;
         }
 

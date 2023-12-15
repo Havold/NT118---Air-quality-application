@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.natural.api.apiService_token;
 import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.WeatherResponse;
+import com.example.natural.SQLite.DatabaseHelper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -104,12 +105,25 @@ public class FragmentHome extends Fragment {
                         Toast.makeText(requireContext(),"Call API Success",Toast.LENGTH_SHORT).show();
                         WeatherResponse weatherResponse = response.body();
                         if (weatherResponse!=null) {
+                            float rainfall,humidity,temp,wind;
+                            long timestamp;
+                            rainfall = weatherResponse.getAttributes().getRainfall().getValue();
+                            humidity = weatherResponse.getAttributes().getHumidity().getValue();
+                            temp = weatherResponse.getAttributes().getTemperature().getValue();
+                            wind = weatherResponse.getAttributes().getWindSpeed().getValue();
+                            timestamp = weatherResponse.getCreatedOn();
                             tv_place.setText(weatherResponse.getAttributes().getPlace().getValue());
-                            tv_rainfall.setText(String.valueOf(weatherResponse.getAttributes().getRainfall().getValue())+"mm");
-                            tv_humidity.setText(String.valueOf(weatherResponse.getAttributes().getHumidity().getValue())+"%");
-                            tv_temp.setText(String.valueOf(weatherResponse.getAttributes().getTemperature().getValue()));
-                            tv_wind.setText(String.valueOf(weatherResponse.getAttributes().getWindSpeed().getValue())+"km/h");
-                            tv_date.setText(String.valueOf(convertTimestampToFormattedDate(weatherResponse.getCreatedOn())));
+                            tv_rainfall.setText(String.valueOf(rainfall)+"mm");
+                            tv_humidity.setText(String.valueOf(humidity)+"%");
+                            tv_temp.setText(String.valueOf(temp));
+                            tv_wind.setText(String.valueOf(wind)+"km/h");
+                            tv_date.setText(String.valueOf(convertTimestampToFormattedDate(timestamp)));
+
+                            //        Khai báo để sử dụng SQLite
+                            DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
+//                            dbHelper.deleteTable();
+                            dbHelper.insertWeatherData(temp, humidity, wind, rainfall, timestamp);
+                            dbHelper.close();
                         }
                     }
 
