@@ -3,6 +3,7 @@ package com.example.natural;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,17 +34,43 @@ public class LogInActivity extends AppCompatActivity {
 
     ImageView languageIcon;
     LoadingAlert loadingAlert;
+    CheckBox checkRemember;
+    SharedPreferences sharedPreferences;
+
+    EditText user,pwd;
+    SharedPreferences.Editor editor;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        // Trong phương thức onCreate
+        sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE);
+        boolean rememberMe = sharedPreferences.getBoolean("rememberMe", false);
+
+        // Nhận một đối tượng Editor để chỉnh sửa dữ liệu
+        editor = sharedPreferences.edit();
+
         TextView signup = findViewById(R.id.signupTxt);
         ImageView back = findViewById(R.id.left_arrow);
         Button signinBtn = findViewById(R.id.SignInBtn);
-        EditText user = findViewById(R.id.edtUsr);
-        EditText pwd = findViewById(R.id.edtPwd);
+        user = findViewById(R.id.edtUsr);
+        pwd = findViewById(R.id.edtPwd);
         languageIcon = findViewById(R.id.languageIcon);
         loadingAlert = new LoadingAlert(LogInActivity.this);
+        checkRemember = findViewById(R.id.checkRemember);
+
+        // Kiểm tra trạng thái "Remember Me"
+        if (rememberMe) {
+            String username = sharedPreferences.getString("username", "");
+            String password = sharedPreferences.getString("password", "");
+
+            // Điền thông tin đăng nhập vào các trường
+            user.setText(username);
+            pwd.setText(password);
+        }
+
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +117,20 @@ public class LogInActivity extends AppCompatActivity {
                         String token = response.body().getAccess_token();
                         PreferenceUtils.saveToken(token);
                         loadingAlert.CloseAlertDialog();
+
+                        // Lưu trạng thái "Remember Me"
+                        boolean rememberMe = checkRemember.isChecked();
+                        editor.putBoolean("rememberMe", rememberMe);
+                        editor.apply();
+
+                        // Nếu "Remember Me" được chọn
+                        if (rememberMe) {
+                            // Lưu thông tin đăng nhập
+                            editor.putString("username", user);
+                            editor.putString("password", password);
+                            editor.apply();
+                        }
+
                         Intent intent = new Intent(LogInActivity.this, HomeActivity.class);
                         intent.putExtra("accessToken", token);
                         startActivity(intent);

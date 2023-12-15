@@ -101,7 +101,7 @@
 
 
     <CheckBox
-        android:id="@+id/CheckBox"
+        android:id="@+id/checkRemember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/frame_2"
@@ -112,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/remember_me"
-        android:layout_toRightOf="@+id/CheckBox"
+        android:layout_toRightOf="@+id/checkRemember"
         android:layout_below="@+id/frame_2"
         android:layout_marginTop="14dp"
         />

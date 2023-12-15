@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.natural.api.apiService_token;
 import com.example.natural.model.MapResponse;
+import com.example.natural.model.SharedViewModel;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -42,6 +44,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     GoogleMap gMap;
     FrameLayout map;
     Button showBtn;
+    String accessToken;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -175,9 +178,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 dialog.dismiss();
                 gotoHomeFragment();
-                // Cập nhật item trong BottomNavigationView
-                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNav);
-                bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+
+
+//                // Cập nhật item trong BottomNavigationView
+//                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNav);
+//                bottomNavigationView.setSelectedItemId(R.id.bottom_home);
             }
         });
         dialog.show();

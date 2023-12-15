@@ -2,6 +2,7 @@ package com.example.natural;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -59,7 +60,7 @@ public class HomeActivity extends AppCompatActivity {
 //
 //        // Gán Bundle cho Fragment
 //        fragmentHome.setArguments(bundle);
-//        fragmentProfile.setArguments(bundle);
+////        fragmentProfile.setArguments(bundle);
 
         tabLayout = findViewById(R.id.tabLayout);
         viewPager2 = findViewById(R.id.viewPage);

@@ -1,4 +1,6 @@
 package com.example.natural.model;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 public class SharedViewModel extends ViewModel {
 
@@ -11,4 +13,6 @@ public class SharedViewModel extends ViewModel {
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
+
+
 }

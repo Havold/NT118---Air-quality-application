@@ -28,6 +28,7 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     ImageView userIcon;
+
     SharedViewModel sharedViewModel;
     TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date;
     apiService_token apiServiceToken;
@@ -38,9 +39,9 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Khởi tạo ViewModel
+//         Khởi tạo ViewModel
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        // Nhận dữ liệu từ ViewModel
+//         Nhận dữ liệu từ ViewModel
         String accessToken = sharedViewModel.getAccessToken();
 
         tv_place = view.findViewById(R.id.locationTxt);
@@ -54,13 +55,32 @@ public class FragmentHome extends Fragment {
         if (accessToken!=null) {
             callWeatherAPI(accessToken);
         }
+
+
+
 //        // Nhận dữ liệu từ Bundle
 //        if (getArguments() != null) {
-//            String accessToken = getArguments().getString("accessToken");
+//            accessToken = getArguments().getString("accessToken");
 //            // Sử dụng thông tin accessToken ở đây
 //            // Ví dụ:
 //            callWeatherAPI(accessToken);
 //        }
+//
+//        Fragment fragmentMap = new FragmentMap();
+//        Fragment fragmentGraph = new FragmentGraph();
+//        Fragment fragmentProfile = new FragmentProfile();
+//
+//        // Tạo Bundle và đặt thông tin vào Bundle
+//        Bundle bundle = new Bundle();
+//        bundle.putString("accessToken", accessToken);
+//
+//
+//        // Gán Bundle cho Fragment
+//        fragmentMap.setArguments(bundle);
+//        fragmentGraph.setArguments(bundle);
+//        fragmentProfile.setArguments(bundle);
+
+//        fragmentProfile.setArguments(bundle);
 
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
