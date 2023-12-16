@@ -8,8 +8,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -37,10 +39,10 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     ImageView userIcon;
-    ImageView languageIcon;
+    ImageView languageIcon,weatherIcon;
 
     SharedViewModel sharedViewModel;
-    TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date;
+    TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date,tv_weather;
     apiService_token apiServiceToken;
 
     @SuppressLint("MissingInflatedId")
@@ -63,6 +65,8 @@ public class FragmentHome extends Fragment {
         tv_date = view.findViewById(R.id.date);
         userIcon = view.findViewById(R.id.userIcon);
         languageIcon = view.findViewById(R.id.languageIcon);
+        weatherIcon = view.findViewById(R.id.weatherIcon);
+        tv_weather = view.findViewById(R.id.weatherTxt);
 
         if (accessToken!=null) {
             callWeatherAPI(accessToken);
@@ -129,6 +133,17 @@ public class FragmentHome extends Fragment {
                             tv_temp.setText(String.valueOf(temp));
                             tv_wind.setText(String.valueOf(wind)+"km/h");
                             tv_date.setText(String.valueOf(convertTimestampToFormattedDate(timestamp)));
+
+                            if (humidity>=80 || rainfall>= 16 || wind>=7.2) {
+                                Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.chance_of_rain_predict);
+                                weatherIcon.setBackground(drawable);
+                                tv_weather.setText(R.string.rainy);
+                            }
+                            else {
+                                Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.sunny);
+                                weatherIcon.setBackground(drawable);
+                                tv_weather.setText(R.string.sunny);
+                            }
 
                             //        Khai báo để sử dụng SQLite
                             DatabaseHelper dbHelper = new DatabaseHelper(requireContext());

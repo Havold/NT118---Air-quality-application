@@ -47,4 +47,6 @@
     <string name="sunny">Nhiều nắng</string>
     <string name="updating">Cập nhật</string>
     <string name="log_out">Đăng xuất</string>
+    <string name="rainy">Nhiều mưa</string>
+
 </resources>
