@@ -1,5 +1,6 @@
 package com.example.natural;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 
+import org.w3c.dom.Text;
+
 import java.util.Locale;
 
 
@@ -28,7 +32,8 @@ public class MainPageActivity extends AppCompatActivity {
     GoogleSignInClient gsc;
     Button googleBtn;
     ImageView languageIcon;
-
+    TextView tv_forget;
+    @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
@@ -37,7 +42,7 @@ public class MainPageActivity extends AppCompatActivity {
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this,gso);
-
+        tv_forget = findViewById(R.id.forgetTxt);
         Button signIn_btn = (Button) findViewById((R.id.signIn_btn));
         Button signUp_btn = (Button) findViewById(R.id.SignUpBtn);
         languageIcon = (ImageView) findViewById(R.id.languageIcon);
@@ -68,6 +73,14 @@ public class MainPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showChangeLanguageDialog();
+            }
+        });
+
+        tv_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainPageActivity.this,ResetPassword.class);
+                startActivity(intent);
             }
         });
     }

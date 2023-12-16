@@ -36,7 +36,7 @@ public class LogInActivity extends AppCompatActivity {
     LoadingAlert loadingAlert;
     CheckBox checkRemember;
     SharedPreferences sharedPreferences;
-
+    TextView tv_forget;
     EditText user,pwd;
     SharedPreferences.Editor editor;
     @SuppressLint("MissingInflatedId")
@@ -60,6 +60,7 @@ public class LogInActivity extends AppCompatActivity {
         languageIcon = findViewById(R.id.languageIcon);
         loadingAlert = new LoadingAlert(LogInActivity.this);
         checkRemember = findViewById(R.id.checkRemember);
+        tv_forget = findViewById(R.id.forgetTxt);
 
         // Kiểm tra trạng thái "Remember Me"
         if (rememberMe) {
@@ -71,6 +72,14 @@ public class LogInActivity extends AppCompatActivity {
             pwd.setText(password);
         }
 
+
+        tv_forget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LogInActivity.this,ResetPassword.class);
+                startActivity(intent);
+            }
+        });
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +154,8 @@ public class LogInActivity extends AppCompatActivity {
                 showAlertDialog();
             }
         });
+
+
     }
 
     public void showAlertDialog() {
@@ -152,8 +163,8 @@ public class LogInActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         loadingAlert.CloseAlertDialog();
 
-        builder.setTitle("Wrong password")
-                .setMessage("The password you just entered is not correct. Please re-enter.")
+        builder.setTitle(getString(R.string.wrong_password))
+                .setMessage(R.string.the_password_you_just_entered_is_not_correct_please_re_enter)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

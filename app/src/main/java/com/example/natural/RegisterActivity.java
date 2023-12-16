@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.contains("uiot.ixxc.dev/manager/")&&!isFormSubmitted ) {
                     loadingAlert.CloseAlertDialog();
-                    Toast.makeText(RegisterActivity.this,"Your registration was succesful",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, getString(R.string.your_registration_was_succesful),Toast.LENGTH_SHORT).show();
                     isFormSubmitted=true;
                     Intent intent = new Intent(RegisterActivity.this,LogInActivity.class);
                     startActivity(intent);
@@ -102,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                     handler.postDelayed((Runnable) () -> {
                         if (!isFormSubmitted) {
                             loadingAlert.CloseAlertDialog();
-                            showAlert("REGISTRATION FAILED", "Username or email already exists!",false);
+                            showAlert("REGISTRATION FAILED", getString(R.string.username_or_email_already_exists),false);
                         }
                     },3000 );
                 }
@@ -134,20 +134,20 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isEmptyInput() {
         String strEmail = edtEmail.getText().toString();
         if (edtName.getText().toString().isEmpty()) {
-            ShowError(edtName,"What's your name?");
+            ShowError(edtName,getString(R.string.what_s_your_name));
             return true;
         } else if (edtEmail.getText().toString().isEmpty()) {
-            ShowError(edtEmail,"Please enter your email.");
+            ShowError(edtEmail,getString(R.string.please_enter_your_email));
             return true;
         } else if (!isValidEmail(strEmail)) {
-            ShowError(edtEmail,"Please enter a valid email!");
+            ShowError(edtEmail,getString(R.string.please_enter_a_valid_email));
             return true;
         }
         else if (edtPass.getText().toString().isEmpty()) {
-            ShowError(edtPass,"Enter password.");
+            ShowError(edtPass,getString(R.string.enter_password));
             return true;
         } else if (edtConfirmPass.getText().toString().isEmpty()) {
-            ShowError(edtConfirmPass,"Please confirm your password.");
+            ShowError(edtConfirmPass,getString(R.string.please_confirm_your_password));
             return true;
         }
         return false;

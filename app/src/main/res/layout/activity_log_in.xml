@@ -118,6 +118,7 @@
         />
 
     <TextView
+        android:id="@+id/forgetTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/forget_password"
@@ -125,7 +126,7 @@
         android:layout_marginTop="14dp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="50dp"
-        android:textSize="14dp"
+        android:textSize="12dp"
         android:textColor="#2DBCAA"
         />
 

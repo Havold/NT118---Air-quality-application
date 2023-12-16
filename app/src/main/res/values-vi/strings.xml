@@ -48,5 +48,20 @@
     <string name="updating">Cập nhật</string>
     <string name="log_out">Đăng xuất</string>
     <string name="rainy">Nhiều mưa</string>
-
+    <string name="submit">GỬI</string>
+    <string name="username_or_email">Tên người dùng hoặc email</string>
+    <string name="enter_your_username_or_email_address">Nhập tên người dùng hoặc email</string>
+    <string name="reset_password">Đặt lại mật khẩu</string>
+    <string name="remembered_password">Đã nhớ lại mật khẩu?</string>
+    <string name="received_email">Bạn sẽ sớm nhận được email kèm theo hướng dẫn chi tiết.</string>
+    <string name="please_fill_out_this_field">Vui lòng điền vào ô này</string>
+    <string name="username_or_email_already_exists">Tài khoản hoặc email đã tồn tại.</string>
+    <string name="your_registration_was_succesful">Đăng ký của bạn đã thành công!</string>
+    <string name="please_confirm_your_password">Vui lòng xác nhận mật khẩu của bạn</string>
+    <string name="enter_password">Nhập mật khẩu.</string>
+    <string name="please_enter_a_valid_email">Vui lòng nhập email hợp lệ!</string>
+    <string name="please_enter_your_email">Vui lòng nhập email của bạn</string>
+    <string name="what_s_your_name">Tên của bạn là gì?</string>
+    <string name="the_password_you_just_entered_is_not_correct_please_re_enter">Mật khẩu bạn vừa nhập không chính xác. Vui lòng nhập lại.</string>
+    <string name="wrong_password">Sai mật khẩu</string>
 </resources>
