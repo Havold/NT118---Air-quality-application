@@ -26,4 +26,25 @@
     <string name="remember_me">Ghi nhớ tôi</string>
     <string name="forget_password">Quên mật khẩu?</string>
     <string name="don_t_have_account">Chưa có tài khoản?</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Trang chủ</string>
+    <string name="dashboard">Bảng điều khiển</string>
+    <string name="map">Bản đồ</string>
+    <string name="select">Chọn 1 mục</string>
+    <string name="title_activity_demo_nav">demoNav</string>
+    <string name="graph">Đồ thì</string>
+    <string name="profile">Hồ sơ</string>
+    <string name="chart">Biểu đồ</string>
+    <string name="select_attribute">Chọn thuộc tính</string>
+    <string name="time_frame">Chọn khoảng thời gian</string>
+    <string name="startings">Bắt đầu</string>
+    <string name="engdings">Kết thúc</string>
+    <string name="show_chart">Hiển thị biểu đồ</string>
+    <string name="wind">Gió</string>
+    <string name="humidity">Độ ẩm</string>
+    <string name="rainfall">Lượng mưa</string>
+    <string name="sunny">Nhiều nắng</string>
+    <string name="updating">Cập nhật</string>
+    <string name="log_out">Đăng xuất</string>
 </resources>

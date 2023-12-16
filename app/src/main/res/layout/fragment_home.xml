@@ -25,14 +25,23 @@
             android:layout_marginTop="32dp"
             />
 
+<!--        <ImageView-->
+<!--            android:id="@+id/notification"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:background="@drawable/notification"-->
+<!--            android:layout_alignParentRight="true"-->
+<!--            android:layout_marginRight="14dp"-->
+<!--            android:layout_marginTop="18dp"-->
+<!--            />-->
         <ImageView
-            android:id="@+id/notification"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/notification"
+            android:id="@+id/languageIcon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/translate"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="20dp"
             />
 
 
@@ -98,7 +107,7 @@
                 android:id="@+id/status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Updating"
+                android:text="@string/updating"
                 android:textSize="14dp"
                 android:layout_marginTop="10dp"
                 />
@@ -150,7 +159,7 @@
             android:id="@+id/weatherTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sunny"
+            android:text="@string/sunny"
             android:textSize="40dp"
             android:layout_below="@id/temperate"
             android:layout_centerHorizontal="true"
@@ -211,7 +220,7 @@
                 android:id="@+id/windTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wind"
+                android:text="@string/wind"
                 android:textSize="16dp"
                 android:textColor="@color/grey"
                 android:layout_gravity="center_horizontal"
@@ -252,7 +261,7 @@
                 android:id="@+id/humidityTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Humidity"
+                android:text="@string/humidity"
                 android:textSize="16dp"
                 android:textColor="@color/grey"
                 android:layout_gravity="center_horizontal"
@@ -291,7 +300,7 @@
                 android:id="@+id/rainfallTitleTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rainfall"
+                android:text="@string/rainfall"
                 android:textSize="16dp"
                 android:textColor="@color/grey"
                 android:layout_gravity="center_horizontal"

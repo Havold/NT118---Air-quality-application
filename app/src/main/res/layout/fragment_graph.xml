@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="24dp"
-            android:text="Chart"
+            android:text="@string/chart"
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="36dp"
@@ -38,7 +38,7 @@
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/green"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Select Attribute"
+                android:hint="@string/select_attribute"
                 app:hintTextColor="@color/green">
                 <AutoCompleteTextView
                     android:id="@+id/auto_complete_txt"
@@ -63,7 +63,7 @@
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/green"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Time Frame"
+                android:hint="@string/time_frame"
                 app:hintTextColor="@color/green">
                 <AutoCompleteTextView
                     android:id="@+id/auto_complete_txt_TimeFrame"
@@ -90,7 +90,7 @@
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/green"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Startings"
+                android:hint="@string/startings"
                 app:hintTextColor="@color/green">
                 <AutoCompleteTextView
                     android:id="@+id/selectStartingTxt"
@@ -117,7 +117,7 @@
                 android:textColorHint="@color/black"
                 app:boxStrokeColor="@color/green"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:hint="Engdings"
+                android:hint="@string/engdings"
                 app:hintTextColor="@color/green">
                 <AutoCompleteTextView
                     android:id="@+id/selectEndingTxt"
@@ -132,7 +132,7 @@
             android:id="@+id/showChartBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Show Chart"
+            android:text="@string/show_chart"
             android:textStyle="bold"
             android:textSize="20dp"
             android:layout_marginLeft="20dp"

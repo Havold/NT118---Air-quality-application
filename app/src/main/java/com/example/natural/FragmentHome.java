@@ -1,5 +1,13 @@
 package com.example.natural;
 
+import static android.content.Context.MODE_PRIVATE;
+import static androidx.core.app.ActivityCompat.recreate;
+
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -29,11 +37,13 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     ImageView userIcon;
+    ImageView languageIcon;
 
     SharedViewModel sharedViewModel;
     TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date;
     apiService_token apiServiceToken;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,6 +62,7 @@ public class FragmentHome extends Fragment {
         tv_rainfall = view.findViewById(R.id.rainfallTxt);
         tv_date = view.findViewById(R.id.date);
         userIcon = view.findViewById(R.id.userIcon);
+        languageIcon = view.findViewById(R.id.languageIcon);
 
         if (accessToken!=null) {
             callWeatherAPI(accessToken);
@@ -133,6 +144,13 @@ public class FragmentHome extends Fragment {
                     }
                 });
 
+        languageIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangeLanguageDialog();
+            }
+        });
+
     }
 
     public static String convertTimestampToFormattedDate(long timestamp) {
@@ -156,4 +174,45 @@ public class FragmentHome extends Fragment {
         FragmentTransaction fm = getActivity().getSupportFragmentManager().beginTransaction();
         fm.replace(R.id.frameLayout,profileFragment).commit();
     }
+
+    private void showChangeLanguageDialog() {
+        // array of language to display in alert dialog
+        final String[] listItems = {"Tiếng Việt", "English"};
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(requireContext());
+        mBuilder.setSingleChoiceItems(listItems, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == 0) {
+                    setLocale("vi", languageIcon);
+                } else if (i == 1) {
+                    setLocale("en", languageIcon);
+                }
+
+                // Dismiss the dialog after choosing a language
+                dialogInterface.dismiss();
+            }
+        });
+
+        AlertDialog mDialog = mBuilder.create();
+        // show alert dialog
+        mDialog.show();
+    }
+
+    private void setLocale(String lang, ImageView languageIcon) {
+        // Update the locale configuration
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+        // Save the selected language to SharedPreferences
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("Settings", MODE_PRIVATE).edit();
+        editor.putString("My_Lang", lang);
+        editor.apply();
+
+        // Recreate the activity to apply the language change
+        requireActivity().recreate();
+    }
+
 }

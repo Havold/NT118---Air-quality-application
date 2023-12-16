@@ -33,4 +33,16 @@
     <string name="title_activity_demo_nav">demoNav</string>
     <string name="graph">Graph</string>
     <string name="profile">Profile</string>
+    <string name="chart">Chart</string>
+    <string name="select_attribute">Select Attribute</string>
+    <string name="time_frame">Time Frame</string>
+    <string name="startings">Startings</string>
+    <string name="engdings">Engdings</string>
+    <string name="show_chart">Show Chart</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="rainfall">Rainfall</string>
+    <string name="sunny">Sunny</string>
+    <string name="updating">Updating</string>
+    <string name="log_out">Log out</string>
 </resources>
