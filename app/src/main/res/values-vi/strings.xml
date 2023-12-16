@@ -64,4 +64,6 @@
     <string name="what_s_your_name">Tên của bạn là gì?</string>
     <string name="the_password_you_just_entered_is_not_correct_please_re_enter">Mật khẩu bạn vừa nhập không chính xác. Vui lòng nhập lại.</string>
     <string name="wrong_password">Sai mật khẩu</string>
+    <string name="hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads">Này, hôm nay trời có thể sẽ mưa đấy. Hãy nhớ mang theo dù và cẩn thận đường trơn nhé!</string>
+    <string name="hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it">Này, hôm nay trời sẽ nắng đấy. Hãy ra ngoài và tận hưởng không khí trong lành nào!</string>
 </resources>

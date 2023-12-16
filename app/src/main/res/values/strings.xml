@@ -62,5 +62,7 @@
     <string name="what_s_your_name">What\'s your name?</string>
     <string name="the_password_you_just_entered_is_not_correct_please_re_enter">The password you just entered is not correct. Please re-enter.</string>
     <string name="wrong_password">Wrong password</string>
+    <string name="hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads">Hey, it\'s going to rain today. Remember to bring an umbrella when going out!</string>
+    <string name="hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it">Hey, it\'s going to be sunny today. Let\'s go out and enjoy it!</string>
 
 </resources>

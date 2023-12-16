@@ -25,15 +25,7 @@
             android:layout_marginTop="32dp"
             />
 
-<!--        <ImageView-->
-<!--            android:id="@+id/notification"-->
-<!--            android:layout_width="60dp"-->
-<!--            android:layout_height="60dp"-->
-<!--            android:background="@drawable/notification"-->
-<!--            android:layout_alignParentRight="true"-->
-<!--            android:layout_marginRight="14dp"-->
-<!--            android:layout_marginTop="18dp"-->
-<!--            />-->
+
         <ImageView
             android:id="@+id/languageIcon"
             android:layout_width="50dp"
@@ -44,6 +36,29 @@
             android:layout_marginRight="20dp"
             />
 
+        <ImageView
+            android:id="@+id/notification"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/notification"
+            android:layout_below="@+id/languageIcon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="18dp"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/notification_off"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@drawable/notification_off"
+            android:layout_below="@+id/languageIcon"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="18dp"
+            android:visibility="visible"
+            />
 
 
         <LinearLayout

@@ -1,16 +1,28 @@
 package com.example.natural;
 
+import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.app.ActivityCompat.recreate;
+import static androidx.core.content.ContextCompat.getSystemService;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -26,6 +38,7 @@ import com.example.natural.api.apiService_token;
 import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.WeatherResponse;
 import com.example.natural.SQLite.DatabaseHelper;
+import com.example.natural.service.MyService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
@@ -39,11 +52,15 @@ import retrofit2.Response;
 
 public class FragmentHome extends Fragment {
     ImageView userIcon;
-    ImageView languageIcon,weatherIcon;
+    String assetID= "5zI6XqkQVSfdgOrZ1MyWEf";
+    String accessToken;
+    ImageView languageIcon,weatherIcon,notificationIcon,notificationIconOff;
 
     SharedViewModel sharedViewModel;
     TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date,tv_weather;
     apiService_token apiServiceToken;
+
+    boolean stateWeather;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -52,10 +69,20 @@ public class FragmentHome extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(),
+                    android.Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(requireActivity(),
+                        new String[] {Manifest.permission.POST_NOTIFICATIONS},101);
+            }
+        }
+
 //         Khởi tạo ViewModel
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 //         Nhận dữ liệu từ ViewModel
-        String accessToken = sharedViewModel.getAccessToken();
+        accessToken = sharedViewModel.getAccessToken();
 
         tv_place = view.findViewById(R.id.locationTxt);
         tv_temp = view.findViewById(R.id.temperate);
@@ -67,6 +94,8 @@ public class FragmentHome extends Fragment {
         languageIcon = view.findViewById(R.id.languageIcon);
         weatherIcon = view.findViewById(R.id.weatherIcon);
         tv_weather = view.findViewById(R.id.weatherTxt);
+        notificationIcon = view.findViewById(R.id.notification);
+        notificationIconOff = view.findViewById(R.id.notification_off);
 
         if (accessToken!=null) {
             callWeatherAPI(accessToken);
@@ -98,6 +127,26 @@ public class FragmentHome extends Fragment {
 
 //        fragmentProfile.setArguments(bundle);
 
+        notificationIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(requireContext(),"Reminder off!", Toast.LENGTH_SHORT).show();
+                notificationIcon.setVisibility(View.GONE);
+                notificationIconOff.setVisibility(View.VISIBLE);
+                stopReminderService();
+            }
+        });
+
+        notificationIconOff.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(requireContext(),"Reminder on!", Toast.LENGTH_SHORT).show();
+                notificationIconOff.setVisibility(View.GONE);
+                notificationIcon.setVisibility(View.VISIBLE);
+                startReminderService();
+            }
+        });
+
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +162,7 @@ public class FragmentHome extends Fragment {
     private void callWeatherAPI(String accessToken) {
 
         apiServiceToken.api_token
-                .getAsset("5zI6XqkQVSfdgOrZ1MyWEf","Bearer " + accessToken)
+                .getAsset(assetID,"Bearer " + accessToken)
                 .enqueue(new Callback<WeatherResponse>() {
                     @Override
                     public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
@@ -138,11 +187,13 @@ public class FragmentHome extends Fragment {
                                 Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.chance_of_rain_predict);
                                 weatherIcon.setBackground(drawable);
                                 tv_weather.setText(R.string.rainy);
+                                stateWeather=false; //Trời mưa
                             }
                             else {
                                 Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.sunny);
                                 weatherIcon.setBackground(drawable);
                                 tv_weather.setText(R.string.sunny);
+                                stateWeather=true; //Trời nắng
                             }
 
                             //        Khai báo để sử dụng SQLite
@@ -228,6 +279,19 @@ public class FragmentHome extends Fragment {
 
         // Recreate the activity to apply the language change
         requireActivity().recreate();
+    }
+
+    private void startReminderService() {
+        Intent serviceIntent = new Intent(requireContext(), MyService.class);
+        serviceIntent.putExtra("stateWeather",stateWeather);
+        serviceIntent.putExtra("assetID",assetID);
+        serviceIntent.putExtra("accessToken",accessToken);
+        requireContext().startService(serviceIntent);
+    }
+
+    private void stopReminderService() {
+        Intent serviceIntent = new Intent(requireContext(), MyService.class);
+        requireContext().stopService(serviceIntent);
     }
 
 }
