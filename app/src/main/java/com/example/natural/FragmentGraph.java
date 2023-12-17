@@ -180,6 +180,7 @@ public class FragmentGraph extends Fragment {
 //                        int day = DateUtils.getDayFromTimestamp(time);
 //                        int month = DateUtils.getMonthFromTimestamp(time);
 //                        int year = DateUtils.getYearFromTimestamp(time);
+
                         // Add data to the BarChart
                         if (attribute=="Temperature") {
                             if (timeFrame=="Day") {

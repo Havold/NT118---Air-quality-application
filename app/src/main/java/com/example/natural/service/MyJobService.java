@@ -53,7 +53,6 @@ public class MyJobService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-
         Log.e(TAG,"Job started");
         checkAndShowApiReminder(accessToken);
         doBackgroundWork(params);

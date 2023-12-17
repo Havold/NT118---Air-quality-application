@@ -18,6 +18,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natural.api.apiService_token;
@@ -44,6 +45,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
     GoogleMap gMap;
     FrameLayout map;
     Button showBtn;
+    SharedViewModel sharedViewModel;
     String accessToken;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +53,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_map, container, false);
         map = view.findViewById(R.id.map);
+
+        //         Khởi tạo ViewModel
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
@@ -160,6 +165,24 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.infor_dialog_weather);
 
+        TextView tempTxt = dialog.findViewById(R.id.tempTxt);
+        TextView rainfallTxt = dialog.findViewById(R.id.rainfallTxt);
+        TextView humidTxt = dialog.findViewById(R.id.humidityTxt);
+        TextView windTxt = dialog.findViewById(R.id.windspeedTxt);
+
+        float temp = sharedViewModel.getTemperature();
+        float rainfall = sharedViewModel.getRainfall();
+        float humid = sharedViewModel.getHumidity();
+        float wind = sharedViewModel.getWind();
+
+
+        // Thiết lập giá trị cho các TextView
+        tempTxt.setText(String.valueOf(temp));
+        rainfallTxt.setText(String.valueOf(rainfall) + "mm");
+        humidTxt.setText(String.valueOf(humid)+"%");
+        windTxt.setText(String.valueOf(wind)+"km/h");
+
+
         Window window = dialog.getWindow();
         if (window==null) {
             return;
@@ -172,6 +195,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         windowAttributes.gravity= Gravity.CENTER;
         window.setAttributes(windowAttributes);
         dialog.setCancelable(true);
+
         showBtn = (Button) dialog.findViewById(R.id.showBtn);
         showBtn.setOnClickListener(new View.OnClickListener() {
             @Override

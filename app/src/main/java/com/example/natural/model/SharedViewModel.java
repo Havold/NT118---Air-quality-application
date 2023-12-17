@@ -5,9 +5,52 @@ import androidx.lifecycle.ViewModel;
 public class SharedViewModel extends ViewModel {
 
     private String accessToken;
+    float humidity, rainfall, wind, temperature;
+
+    public float getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(float humidity) {
+        this.humidity = humidity;
+    }
+
+    public float getRainfall() {
+        return rainfall;
+    }
+
+    public void setRainfall(float rainfall) {
+        this.rainfall = rainfall;
+    }
+
+    public float getWind() {
+        return wind;
+    }
+
+    public void setWind(float wind) {
+        this.wind = wind;
+    }
+
+    public float getTemperature() {
+        return temperature;
+    }
+
+    public void setTemperature(float temperature) {
+        this.temperature = temperature;
+    }
+
     String attribute,timeFrame;
     int dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd;
     boolean onNotification;
+    boolean stateGoogle;
+
+    public boolean isStateGoogle() {
+        return stateGoogle;
+    }
+
+    public void setStateGoogle(boolean stateGoogle) {
+        this.stateGoogle = stateGoogle;
+    }
 
     public boolean isOnNotification() {
         return onNotification;

@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 
+import com.example.natural.model.FragmentInteractionListener;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -23,7 +24,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.tabs.TabLayout;
 import com.example.natural.model.SharedViewModel;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements FragmentInteractionListener {
     private SharedViewModel sharedViewModel;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
@@ -176,5 +177,12 @@ public class HomeActivity extends AppCompatActivity {
 //                });
 //            }
 //        });
+    }
+
+    @Override
+    public void onSignOut() {
+        finish();
+        Intent intent = new Intent(this, LogInActivity.class);
+        startActivity(intent);
     }
 }

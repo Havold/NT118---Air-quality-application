@@ -13,13 +13,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natural.api.apiService_token;
+import com.example.natural.model.FragmentInteractionListener;
 import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.UserResponse;
 import com.example.natural.model.WeatherResponse;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.text.SimpleDateFormat;
@@ -34,8 +40,10 @@ public class FragmentProfile extends Fragment {
     private SharedViewModel sharedViewModel;
     Button logoutBtn;
     TextView tv_name,tv_username,tv_email,tv_date,tv_password;
-
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
     apiService_token apiServiceToken;
+    boolean stateGoogle;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -58,6 +66,9 @@ public class FragmentProfile extends Fragment {
         tv_username = view.findViewById(R.id.usernameTxt);
         tv_password = view.findViewById(R.id.pwdTxt);
 
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(requireContext(),gso);
+
         if (accessToken!=null) {
             callUserAPI(accessToken);
         }
@@ -76,8 +87,13 @@ public class FragmentProfile extends Fragment {
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(requireContext(),LogInActivity.class);
-                startActivity(intent);
+
+                signOut();
+
+//                else {
+//                    Intent intent = new Intent(requireContext(), LogInActivity.class);
+//                    startActivity(intent);
+//                }
             }
         });
         return view;
@@ -123,4 +139,14 @@ public class FragmentProfile extends Fragment {
         }
     }
 
+    void signOut() {
+        gsc.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (getActivity() instanceof FragmentInteractionListener) {
+                    ((FragmentInteractionListener) getActivity()).onSignOut();
+                }
+            }
+        });
+    }
 }

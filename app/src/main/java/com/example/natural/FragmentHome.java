@@ -97,6 +97,8 @@ public class FragmentHome extends Fragment {
         accessToken = sharedViewModel.getAccessToken();
         onNotification = sharedViewModel.isOnNotification();
 
+
+
         tv_place = view.findViewById(R.id.locationTxt);
         tv_temp = view.findViewById(R.id.temperate);
         tv_wind = view.findViewById(R.id.windTxt);
@@ -232,8 +234,15 @@ public class FragmentHome extends Fragment {
                             tv_wind.setText(String.valueOf(wind)+"km/h");
                             tv_date.setText(String.valueOf(convertTimestampToFormattedDate(timestamp)));
 
+                            // Truyền dữ liệu vào ViewModel khi cần
+                            sharedViewModel.setTemperature(temp);
+                            sharedViewModel.setRainfall(rainfall);
+                            sharedViewModel.setHumidity(humidity);
+                            sharedViewModel.setWind(wind);
+
                             int hour = DateUtils.convertTimestampToHourInt(timestamp);
-//                            int hour=18;
+//                            int hour=6;
+//                            humidity=14;
 
                             if (hour>=18 || hour<=4) {  //Trời tối
                                 stateNight=true;
