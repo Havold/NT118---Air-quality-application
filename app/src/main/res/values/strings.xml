@@ -64,5 +64,7 @@
     <string name="wrong_password">Wrong password</string>
     <string name="hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads">Hey, it\'s going to rain today. Remember to bring an umbrella when going out!</string>
     <string name="hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it">Hey, it\'s going to be sunny today. Let\'s go out and enjoy it!</string>
+    <string name="hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky">Hey, there will be moon and stars tonight. Let\'s enjoy the night sky!</string>
+    <string name="moon_and_star">Moon and Star</string>
 
 </resources>

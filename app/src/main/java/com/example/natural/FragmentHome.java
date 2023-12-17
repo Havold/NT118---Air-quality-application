@@ -41,6 +41,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.natural.api.apiService_token;
+import com.example.natural.model.DateUtils;
 import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.WeatherResponse;
 import com.example.natural.SQLite.DatabaseHelper;
@@ -63,13 +64,15 @@ public class FragmentHome extends Fragment {
     ImageView userIcon;
     String assetID= "5zI6XqkQVSfdgOrZ1MyWEf";
     String accessToken;
-    ImageView languageIcon,weatherIcon,notificationIcon,notificationIconOff;
+    ImageView pointYellow,pointWhite,locationBlue,locationRed,languageIcon,weatherIcon,notificationIcon,notificationIconOff,strokeWhite,strokeFull;
 
     SharedViewModel sharedViewModel;
-    TextView tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date,tv_weather;
+    TextView tv_update,tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date,tv_weather;
     apiService_token apiServiceToken;
+    TextView tv_windTitle, tv_humidityTitle, tv_rainfallTitle;
+    boolean stateWeather,stateNight;
 
-    boolean stateWeather;
+    ImageView night_bg,rectangle_smooth;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -106,6 +109,18 @@ public class FragmentHome extends Fragment {
         tv_weather = view.findViewById(R.id.weatherTxt);
         notificationIcon = view.findViewById(R.id.notification);
         notificationIconOff = view.findViewById(R.id.notification_off);
+        night_bg = view.findViewById(R.id.img_night);
+        rectangle_smooth= view.findViewById(R.id.rectangle_smooth);
+        tv_windTitle = view.findViewById(R.id.windTitleTxt);
+        tv_humidityTitle = view.findViewById(R.id.humidityTitleTxt);
+        tv_rainfallTitle = view.findViewById(R.id.rainfallTitleTxt);
+        strokeWhite = view.findViewById(R.id.whiteStroke);
+        strokeFull = view.findViewById(R.id.whiteStrokeFull);
+        tv_update = view.findViewById(R.id.status);
+        locationBlue = view.findViewById(R.id.locationIcon);
+        locationRed = view.findViewById(R.id.locationIconRed);
+        pointWhite = view.findViewById(R.id.whitePoint);
+        pointYellow = view.findViewById(R.id.yellowPoint);
 
         if (onNotification) {
             notificationIcon.setVisibility(View.VISIBLE);
@@ -168,6 +183,7 @@ public class FragmentHome extends Fragment {
                 notificationIcon.setVisibility(View.VISIBLE);
                 sharedViewModel.setOnNotification(true);
                 Intent serviceIntent = new Intent(requireContext(), MyJobService.class);
+                serviceIntent.putExtra("stateNight",stateNight);
                 serviceIntent.putExtra("stateWeather",stateWeather);
                 serviceIntent.putExtra("assetID",assetID);
                 serviceIntent.putExtra("accessToken",accessToken);
@@ -196,6 +212,7 @@ public class FragmentHome extends Fragment {
         apiServiceToken.api_token
                 .getAsset(assetID,"Bearer " + accessToken)
                 .enqueue(new Callback<WeatherResponse>() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
                         Toast.makeText(requireContext(),"Call API Success",Toast.LENGTH_SHORT).show();
@@ -215,18 +232,92 @@ public class FragmentHome extends Fragment {
                             tv_wind.setText(String.valueOf(wind)+"km/h");
                             tv_date.setText(String.valueOf(convertTimestampToFormattedDate(timestamp)));
 
-                            if (humidity>=80 || rainfall>= 16 || wind>=7.2) {
-                                Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.chance_of_rain_predict);
-                                weatherIcon.setBackground(drawable);
-                                tv_weather.setText(R.string.rainy);
-                                stateWeather=false; //Trời mưa
+                            int hour = DateUtils.convertTimestampToHourInt(timestamp);
+//                            int hour=18;
+
+                            if (hour>=18 || hour<=4) {  //Trời tối
+                                stateNight=true;
+
+                                night_bg.setVisibility(View.VISIBLE);
+                                rectangle_smooth.setVisibility(View.GONE);
+
+                                tv_rainfall.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_humidity.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_wind.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_place.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_date.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_weather.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_humidityTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_rainfallTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                tv_windTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+
+                                tv_update.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+
+                                pointWhite.setVisibility(View.VISIBLE);
+                                pointYellow.setVisibility(View.GONE);
+
+                                locationBlue.setVisibility(View.VISIBLE);
+                                locationRed.setVisibility(View.GONE);
+
+                                strokeWhite.setVisibility(View.GONE);
+                                strokeFull.setVisibility(View.VISIBLE);
+
+                                if (humidity>=80 || rainfall>= 16 || wind>=7.2) {
+                                    Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.chance_of_rain_predict);
+                                    weatherIcon.setBackground(drawable);
+                                    tv_weather.setText(R.string.rainy);
+                                    stateWeather=false; //Trời mưa
+                                }
+                                else {
+                                    Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.moon);
+                                    weatherIcon.setBackground(drawable);
+                                    tv_weather.setText(R.string.moon_and_star);
+                                    stateWeather=true; //Trời trăng
+                                }
                             }
-                            else {
-                                Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.sunny);
-                                weatherIcon.setBackground(drawable);
-                                tv_weather.setText(R.string.sunny);
-                                stateWeather=true; //Trời nắng
+                            else {  //Trời sáng
+                                stateNight=false;
+
+                                night_bg.setVisibility(View.GONE);
+                                rectangle_smooth.setVisibility(View.VISIBLE);
+
+                                tv_rainfall.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_humidity.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_wind.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_place.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_date.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_weather.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+                                tv_humidityTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.grey));
+                                tv_rainfallTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.grey));
+                                tv_windTitle.setTextColor(ContextCompat.getColor(getContext(), R.color.grey));
+
+                                tv_update.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+
+                                locationBlue.setVisibility(View.GONE);
+                                locationRed.setVisibility(View.VISIBLE);
+
+                                locationBlue.setVisibility(View.GONE);
+                                locationRed.setVisibility(View.VISIBLE);
+
+                                strokeWhite.setVisibility(View.VISIBLE);
+                                strokeFull.setVisibility(View.GONE);
+
+
+                                if (humidity>=80 || rainfall>= 16 || wind>=7.2) {
+                                    Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.chance_of_rain_predict);
+                                    weatherIcon.setBackground(drawable);
+                                    tv_weather.setText(R.string.rainy);
+                                    stateWeather=false; //Trời mưa
+                                }
+                                else {
+                                    Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.sunny);
+                                    weatherIcon.setBackground(drawable);
+                                    tv_weather.setText(R.string.sunny);
+                                    stateWeather=true; //Trời nắng
+                                }
                             }
+
+
 
                             //        Khai báo để sử dụng SQLite
                             DatabaseHelper dbHelper = new DatabaseHelper(requireContext());

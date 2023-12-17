@@ -17,6 +17,7 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.natural.model.DateUtils;
 import com.example.natural.FragmentHome;
 import com.example.natural.R;
 import com.example.natural.SQLite.DatabaseHelper;
@@ -32,7 +33,7 @@ public class MyJobService extends JobService {
     SharedViewModel sharedViewModel;
 
     apiService_token apiServiceToken;
-    boolean stateWeather;
+    boolean stateWeather,stateNight;
     String accessToken,assetID;
     public static final String TAG = MyJobService.class.getName();
     private boolean jobCancelled;
@@ -41,6 +42,7 @@ public class MyJobService extends JobService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null) {
             // Lấy dữ liệu từ Intent
+            stateNight = intent.getBooleanExtra("stateNight", false);
             stateWeather = intent.getBooleanExtra("stateWeather", false);
             accessToken = intent.getStringExtra("accessToken");
             assetID = intent.getStringExtra("assetID");
@@ -86,11 +88,21 @@ public class MyJobService extends JobService {
     private void showReminderNotification() {
         String reminderTxt = "none";
         String chanelID = "CHANNEL_ID_NOTIFICATION";
-        if (stateWeather == false) {  //Nếu như trời mưa
-            reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
-        } else {
-            reminderTxt = getString(R.string.hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it);
+        if (stateNight==true) {     //Trời tối
+            if (stateWeather == false) {  //Nếu như trời mưa
+                reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
+            } else {    // trời trăng
+                reminderTxt = getString(R.string.hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky);
+            }
         }
+        else  {     //Trời sáng
+            if (stateWeather == false) {  //Nếu như trời mưa
+                reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
+            } else {    //trời nắng
+                reminderTxt = getString(R.string.hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it);
+            }
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), chanelID);
         builder.setSmallIcon(R.drawable.baseline_notifications_active_24)
                 .setContentTitle("Reminder Weather")
@@ -138,10 +150,18 @@ public class MyJobService extends JobService {
                             wind = weatherResponse.getAttributes().getWindSpeed().getValue();
                             timestamp = weatherResponse.getCreatedOn();
 
+                            int hour = DateUtils.convertTimestampToHourInt(timestamp);
+                            if (hour>=18 || hour<=4) {
+                                stateNight=true;
+                            }
+                            else {
+                                stateNight=false;
+                            }
+
                             if (humidity >= 80 || rainfall >= 16 || wind >= 7.2) {
                                 stateWeather = false; //Trời mưa
                             } else {
-                                stateWeather = true; //Trời nắng
+                                stateWeather = true; //Trời nắng, trăng
                             }
 
                             //        Khai báo để sử dụng SQLite

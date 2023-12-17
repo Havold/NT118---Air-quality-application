@@ -37,4 +37,18 @@ public class DateUtils {
 
         return calendar.get(Calendar.YEAR);
     }
+
+    public static int convertTimestampToHourInt(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
+    public static int convertTimestampToMinuteInt(long timestamp) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(timestamp);
+
+        return calendar.get(Calendar.MINUTE);
+    }
 }
