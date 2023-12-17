@@ -1,6 +1,7 @@
 package com.example.natural;
 
 import static android.content.Context.ALARM_SERVICE;
+import static android.content.Context.JOB_SCHEDULER_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 import static androidx.core.app.ActivityCompat.recreate;
 import static androidx.core.content.ContextCompat.getSystemService;
@@ -12,6 +13,10 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.app.job.JobService;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +33,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +44,7 @@ import com.example.natural.api.apiService_token;
 import com.example.natural.model.SharedViewModel;
 import com.example.natural.model.WeatherResponse;
 import com.example.natural.SQLite.DatabaseHelper;
+import com.example.natural.service.MyJobService;
 import com.example.natural.service.MyService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,6 +58,8 @@ import retrofit2.Response;
 
 
 public class FragmentHome extends Fragment {
+    private static final int JOB_ID = 123;
+    private boolean onNotification = false;
     ImageView userIcon;
     String assetID= "5zI6XqkQVSfdgOrZ1MyWEf";
     String accessToken;
@@ -83,6 +92,7 @@ public class FragmentHome extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 //         Nhận dữ liệu từ ViewModel
         accessToken = sharedViewModel.getAccessToken();
+        onNotification = sharedViewModel.isOnNotification();
 
         tv_place = view.findViewById(R.id.locationTxt);
         tv_temp = view.findViewById(R.id.temperate);
@@ -97,9 +107,20 @@ public class FragmentHome extends Fragment {
         notificationIcon = view.findViewById(R.id.notification);
         notificationIconOff = view.findViewById(R.id.notification_off);
 
+        if (onNotification) {
+            notificationIcon.setVisibility(View.VISIBLE);
+            notificationIconOff.setVisibility(View.GONE);
+        }
+        else {
+            notificationIconOff.setVisibility(View.VISIBLE);
+            notificationIcon.setVisibility(View.GONE);
+        }
+
         if (accessToken!=null) {
             callWeatherAPI(accessToken);
         }
+
+
 
 
 
@@ -133,7 +154,9 @@ public class FragmentHome extends Fragment {
                 Toast.makeText(requireContext(),"Reminder off!", Toast.LENGTH_SHORT).show();
                 notificationIcon.setVisibility(View.GONE);
                 notificationIconOff.setVisibility(View.VISIBLE);
-                stopReminderService();
+                sharedViewModel.setOnNotification(false);
+//                stopReminderService();
+                onClickStopScheduleJob();
             }
         });
 
@@ -143,8 +166,17 @@ public class FragmentHome extends Fragment {
                 Toast.makeText(requireContext(),"Reminder on!", Toast.LENGTH_SHORT).show();
                 notificationIconOff.setVisibility(View.GONE);
                 notificationIcon.setVisibility(View.VISIBLE);
-                startReminderService();
+                sharedViewModel.setOnNotification(true);
+                Intent serviceIntent = new Intent(requireContext(), MyJobService.class);
+                serviceIntent.putExtra("stateWeather",stateWeather);
+                serviceIntent.putExtra("assetID",assetID);
+                serviceIntent.putExtra("accessToken",accessToken);
+                requireContext().startService(serviceIntent);
+
+                // startReminderService();
+                onClickStartScheduleJob();
             }
+
         });
 
         userIcon.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +230,6 @@ public class FragmentHome extends Fragment {
 
                             //        Khai báo để sử dụng SQLite
                             DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
-//                            dbHelper.deleteTable();
                             dbHelper.insertWeatherData(temp, humidity, wind, rainfall, timestamp);
                             dbHelper.close();
                         }
@@ -294,4 +325,19 @@ public class FragmentHome extends Fragment {
         requireContext().stopService(serviceIntent);
     }
 
+    private void onClickStartScheduleJob() {
+        ComponentName componentName = new ComponentName(requireActivity(), MyJobService.class);
+        JobInfo jobInfo = new JobInfo.Builder(JOB_ID,componentName)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .setPeriodic(15*60*1000)
+                .build();
+        JobScheduler jobScheduler = (JobScheduler) requireContext().getSystemService(JOB_SCHEDULER_SERVICE);
+        jobScheduler.schedule(jobInfo);
+    }
+
+    private void onClickStopScheduleJob() {
+        JobScheduler jobScheduler = (JobScheduler) requireContext().getSystemService(JOB_SCHEDULER_SERVICE);
+        jobScheduler.cancel(JOB_ID);
+    }
 }

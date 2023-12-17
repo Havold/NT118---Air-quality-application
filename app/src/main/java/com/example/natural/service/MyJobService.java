@@ -1,116 +1,97 @@
 package com.example.natural.service;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
+import android.app.job.JobParameters;
+import android.app.job.JobService;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
-import android.os.IBinder;
-import android.widget.Toast;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.natural.FragmentHome;
 import com.example.natural.R;
 import com.example.natural.SQLite.DatabaseHelper;
-import com.example.natural.model.WeatherResponse;
 import com.example.natural.api.apiService_token;
+import com.example.natural.model.SharedViewModel;
+import com.example.natural.model.WeatherResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyService extends Service {
-    String accessToken,assetID;
+public class MyJobService extends JobService {
+    SharedViewModel sharedViewModel;
+
     apiService_token apiServiceToken;
     boolean stateWeather;
-    private static final long REMINDER_INTERVAL = 5 * 60 *100 ; // 5 minutes
-    private static final long API_CALL_INTERVAL = 30 * 60 * 1000; // 30 minutes
-
-    private Handler handler = new Handler();
-    private Runnable reminderRunnable;
-    private Runnable apiCallRunnable;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        // Khởi tạo Runnable cho việc gửi Reminder
-        reminderRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // Gửi thông báo Reminder
-                showReminderNotification();
-
-                // Lập lịch cho việc chạy lại Reminder sau 5 phút
-                handler.postDelayed(this, REMINDER_INTERVAL);
-            }
-        };
-
-        // Khởi tạo Runnable cho việc gọi API
-        apiCallRunnable = new Runnable() {
-            @Override
-            public void run() {
-                // Gọi API và kiểm tra trạng thái (Sunny hoặc Rainy) để gửi Reminder nếu cần
-                checkAndShowApiReminder(accessToken);
-
-                // Lập lịch cho việc chạy lại Runnable sau 30 phút
-                handler.postDelayed(this, API_CALL_INTERVAL);
-            }
-        };
-    }
+    String accessToken,assetID;
+    public static final String TAG = MyJobService.class.getName();
+    private boolean jobCancelled;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent!=null) {
+        if (intent != null) {
             // Lấy dữ liệu từ Intent
-            stateWeather = intent.getBooleanExtra("stateWeather",false);
+            stateWeather = intent.getBooleanExtra("stateWeather", false);
             accessToken = intent.getStringExtra("accessToken");
             assetID = intent.getStringExtra("assetID");
-
-            // Bắt đầu chạy Runnable cho Reminder
-            handler.postDelayed(reminderRunnable, REMINDER_INTERVAL);
-
-            // Bắt đầu chạy Runnable cho API call
-            handler.postDelayed(apiCallRunnable, API_CALL_INTERVAL);
         }
-
 
         return START_STICKY;
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // Dừng các Runnable khi Service bị destroy
-        handler.removeCallbacks(reminderRunnable);
-        handler.removeCallbacks(apiCallRunnable);
+    public boolean onStartJob(JobParameters params) {
+
+        Log.e(TAG,"Job started");
+        checkAndShowApiReminder(accessToken);
+        doBackgroundWork(params);
+        return true;
     }
 
 
+
+    private void doBackgroundWork(final JobParameters params) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (jobCancelled) {
+                    return;
+                }
+                checkAndShowApiReminder(accessToken);
+                showReminderNotification();
+                Log.e(TAG,"run notification");
+
+                jobFinished(params,false);
+            }
+        }).start();
+    }
+
     @Override
-    public IBinder onBind(Intent intent) {
-        return null;
+    public boolean onStopJob(JobParameters params) {
+        Log.e(TAG, "Job stopped");
+        jobCancelled = true;
+        return true;
     }
 
     private void showReminderNotification() {
-        String reminderTxt="none";
+        String reminderTxt = "none";
         String chanelID = "CHANNEL_ID_NOTIFICATION";
-        if (stateWeather==false) {  //Nếu như trời mưa
+        if (stateWeather == false) {  //Nếu như trời mưa
             reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
-        }
-        else {
+        } else {
             reminderTxt = getString(R.string.hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it);
         }
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(),chanelID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), chanelID);
         builder.setSmallIcon(R.drawable.baseline_notifications_active_24)
                 .setContentTitle("Reminder Weather")
                 .setContentText(reminderTxt)
@@ -120,10 +101,10 @@ public class MyService extends Service {
         Intent intent = new Intent(getApplicationContext(), FragmentHome.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,intent,PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
         builder.setContentIntent(pendingIntent);
         NotificationManager notificationManager =
-                (NotificationManager)  getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel =
@@ -131,15 +112,13 @@ public class MyService extends Service {
             if (notificationChannel == null) {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 notificationChannel = new NotificationChannel(chanelID,
-                        "Some description",importance);
+                        "Some description", importance);
                 notificationChannel.setLightColor(Color.GREEN);
                 notificationChannel.enableVibration(true);
                 notificationManager.createNotificationChannel(notificationChannel);
             }
         }
-
         notificationManager.notify(0,builder.build());
-//        startForeground(1,builder.build());
     }
 
     private void checkAndShowApiReminder(String accessToken) {

@@ -7,6 +7,15 @@ public class SharedViewModel extends ViewModel {
     private String accessToken;
     String attribute,timeFrame;
     int dayStart,monthStart,yearStart,dayEnd,monthEnd,yearEnd;
+    boolean onNotification;
+
+    public boolean isOnNotification() {
+        return onNotification;
+    }
+
+    public void setOnNotification(boolean onNotification) {
+        this.onNotification = onNotification;
+    }
 
     public String getAccessToken() {
         return accessToken;
