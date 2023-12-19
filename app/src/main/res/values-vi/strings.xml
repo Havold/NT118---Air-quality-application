@@ -65,7 +65,10 @@
     <string name="the_password_you_just_entered_is_not_correct_please_re_enter">Mật khẩu bạn vừa nhập không chính xác. Vui lòng nhập lại.</string>
     <string name="wrong_password">Sai mật khẩu</string>
     <string name="hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads">Này, hôm nay trời có thể sẽ mưa đấy. Hãy nhớ mang theo dù và cẩn thận đường trơn nhé!</string>
-    <string name="hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it">Này, hôm nay trời sẽ nắng đấy. Hãy ra ngoài và tận hưởng không khí trong lành nào!</string>
-    <string name="hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky">Này, tối nay sẽ có trăng và sao đấy. Hãy tận hưởng bầu trời đêm thôi!</string>
+    <string name="hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it">Này, không khí phòng bạn rất dễ chịu. Không khí sẽ trong lành, hãy tận hưởng nào</string>
+    <string name="hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky">Này, không khí có vẻ dễ chịu. Hãy thư giãn dưới bầu trời đầy sao nào!</string>
     <string name="moon_and_star">Trăng và sao</string>
+    <string name="hey_your_room_seems_a_bit_hot_turn_on_the_air_conditioner_for_more_comfort">Này, căn phòng của bạn có vẻ hơi nóng. Bật điều hòa để thoải mái hơn.</string>
+    <string name="hey_your_room_seems_a_bit_damp_be_careful_not_to_catch_a_cold">Này, phòng của bạn có vẻ hơi ẩm ướt. Hãy cẩn thận kẻo bị nấm</string>
+    <string name="hey_your_room_seems_quite_cold_turn_up_the_air_conditioner_temperature_to_avoid_colds">Này, phòng của bạn có vẻ khá lạnh. Tăng nhiệt độ điều hòa để tránh cảm lạnh.</string>
 </resources>

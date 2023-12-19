@@ -33,7 +33,7 @@ public class MyJobService extends JobService {
     SharedViewModel sharedViewModel;
 
     apiService_token apiServiceToken;
-    boolean stateWeather,stateNight;
+    boolean stateWeather,stateNight,highTemp,highHumid,highRain,highWind,lowTemp;
     String accessToken,assetID;
     public static final String TAG = MyJobService.class.getName();
     private boolean jobCancelled;
@@ -44,6 +44,11 @@ public class MyJobService extends JobService {
             // Lấy dữ liệu từ Intent
             stateNight = intent.getBooleanExtra("stateNight", false);
             stateWeather = intent.getBooleanExtra("stateWeather", false);
+            highTemp = intent.getBooleanExtra("highTemp", false);
+            highHumid = intent.getBooleanExtra("highHumid", false);
+            highWind = intent.getBooleanExtra("highWind", false);
+            highRain = intent.getBooleanExtra("highRain", false);
+            lowTemp = intent.getBooleanExtra("lowTemp", false);
             accessToken = intent.getStringExtra("accessToken");
             assetID = intent.getStringExtra("assetID");
         }
@@ -91,14 +96,32 @@ public class MyJobService extends JobService {
             if (stateWeather == false) {  //Nếu như trời mưa
                 reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
             } else {    // trời trăng
-                reminderTxt = getString(R.string.hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky);
+                if (highTemp) {
+                    reminderTxt = getString(R.string.hey_your_room_seems_a_bit_hot_turn_on_the_air_conditioner_for_more_comfort);
+                }
+                else if (lowTemp){
+                    reminderTxt = getString(R.string.hey_your_room_seems_quite_cold_turn_up_the_air_conditioner_temperature_to_avoid_colds);
+                }
+                else if (highHumid) {
+                    reminderTxt = getString(R.string.hey_your_room_seems_a_bit_damp_be_careful_not_to_catch_a_cold);
+                }
+                else reminderTxt = getString(R.string.hey_there_will_be_moon_and_stars_tonight_let_s_enjoy_the_night_sky);
             }
         }
         else  {     //Trời sáng
             if (stateWeather == false) {  //Nếu như trời mưa
                 reminderTxt = getString(R.string.hey_it_s_going_to_rain_today_remember_to_bring_an_umbrella_when_going_out_and_be_careful_of_slippery_roads);
             } else {    //trời nắng
-                reminderTxt = getString(R.string.hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it);
+                if (highTemp) {
+                    reminderTxt = getString(R.string.hey_your_room_seems_a_bit_hot_turn_on_the_air_conditioner_for_more_comfort);
+                }
+                else if (lowTemp) {
+                    reminderTxt = getString(R.string.hey_your_room_seems_quite_cold_turn_up_the_air_conditioner_temperature_to_avoid_colds);
+                }
+                else if (highHumid) {
+                    reminderTxt = getString(R.string.hey_your_room_seems_a_bit_damp_be_careful_not_to_catch_a_cold);
+                }
+                else reminderTxt = getString(R.string.hey_it_s_going_to_be_sunny_today_let_s_go_out_and_enjoy_it);
             }
         }
 
@@ -162,6 +185,32 @@ public class MyJobService extends JobService {
                             } else {
                                 stateWeather = true; //Trời nắng, trăng
                             }
+
+                            if (temp>=30) {
+                                highTemp=true;
+                            }
+                            else if (temp<26) {
+                                lowTemp = true;
+                            }
+                            if (humidity>=50) {
+                                highHumid=true;
+                            }
+                            else {
+                                highHumid=false;
+                            }
+                            if (rainfall>=16) {
+                                highRain=true;
+                            }
+                            else {
+                                highRain=false;
+                            }
+                            if (wind>=7.2) {
+                                highWind=true;
+                            }
+                            else  {
+                                highWind=false;
+                            }
+
 
                             //        Khai báo để sử dụng SQLite
                             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());

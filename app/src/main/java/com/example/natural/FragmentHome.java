@@ -72,6 +72,8 @@ public class FragmentHome extends Fragment {
     TextView tv_windTitle, tv_humidityTitle, tv_rainfallTitle;
     boolean stateWeather,stateNight;
 
+    boolean highTemp,highHumid,highWind,highRain,lowTemp;
+
     ImageView night_bg,rectangle_smooth;
 
     @SuppressLint("MissingInflatedId")
@@ -189,6 +191,11 @@ public class FragmentHome extends Fragment {
                 serviceIntent.putExtra("stateWeather",stateWeather);
                 serviceIntent.putExtra("assetID",assetID);
                 serviceIntent.putExtra("accessToken",accessToken);
+                serviceIntent.putExtra("highTemp",highTemp);
+                serviceIntent.putExtra("highHumid",highHumid);
+                serviceIntent.putExtra("highRain", highRain);
+                serviceIntent.putExtra("highWind",highWind);
+                serviceIntent.putExtra("lowTemp",lowTemp);
                 requireContext().startService(serviceIntent);
 
                 // startReminderService();
@@ -241,8 +248,9 @@ public class FragmentHome extends Fragment {
                             sharedViewModel.setWind(wind);
 
                             int hour = DateUtils.convertTimestampToHourInt(timestamp);
-//                            int hour=6;
+//                            int hour=19;
 //                            humidity=14;
+//                            temp = 25;
 
                             if (hour>=18 || hour<=4) {  //Trời tối
                                 stateNight=true;
@@ -278,6 +286,30 @@ public class FragmentHome extends Fragment {
                                     stateWeather=false; //Trời mưa
                                 }
                                 else {
+                                    if (temp>=30) {
+                                        highTemp=true;
+                                    }
+                                    else if (temp<26) {
+                                        lowTemp = true;
+                                    }
+                                    if (humidity>=50) {
+                                        highHumid=true;
+                                    }
+                                    else {
+                                        highHumid=false;
+                                    }
+                                    if (rainfall>=16) {
+                                        highRain=true;
+                                    }
+                                    else {
+                                        highRain=false;
+                                    }
+                                    if (wind>=7.2) {
+                                        highWind=true;
+                                    }
+                                    else  {
+                                        highWind=false;
+                                    }
                                     Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.moon);
                                     weatherIcon.setBackground(drawable);
                                     tv_weather.setText(R.string.moon_and_star);
@@ -319,6 +351,30 @@ public class FragmentHome extends Fragment {
                                     stateWeather=false; //Trời mưa
                                 }
                                 else {
+                                    if (temp>=30) {
+                                        highTemp=true;
+                                    }
+                                    else if (temp<26) {
+                                        lowTemp = true;
+                                    }
+                                    if (humidity>=50) {
+                                        highHumid=true;
+                                    }
+                                    else {
+                                        highHumid=false;
+                                    }
+                                    if (rainfall>=16) {
+                                        highRain=true;
+                                    }
+                                    else {
+                                        highRain=false;
+                                    }
+                                    if (wind>=7.2) {
+                                        highWind=true;
+                                    }
+                                    else  {
+                                        highWind=false;
+                                    }
                                     Drawable drawable = ContextCompat.getDrawable(requireContext(), R.drawable.sunny);
                                     weatherIcon.setBackground(drawable);
                                     tv_weather.setText(R.string.sunny);
