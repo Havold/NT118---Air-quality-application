@@ -8,17 +8,47 @@
     android:orientation="vertical"
     >
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/summary_information"
-        android:padding="12dp"
-        android:textColor="@color/white"
-        android:textSize="24dp"
-        android:textStyle="bold"
+        android:background="@drawable/bg_light_corner_16"
         android:gravity="center"
-        android:background="@drawable/bg_green_corner_16"
-        />
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/baseline_lightbulb_24"
+                android:layout_toLeftOf="@+id/txtLight"
+                android:layout_gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/txtLight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light"
+                android:padding="12dp"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,10 +66,10 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="@string/temperature"/>
+                android:text="@string/brightness"/>
 
             <TextView
-                android:id="@+id/tempTxt"
+                android:id="@+id/txtBright"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,10 +91,10 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="@string/rainfall"/>
+                android:text="@string/colour_temperature_k"/>
 
             <TextView
-                android:id="@+id/rainfallTxt"
+                android:id="@+id/txtColour"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -86,10 +116,10 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="@string/humidity"/>
+                android:text="Email"/>
 
             <TextView
-                android:id="@+id/humidityTxt"
+                android:id="@+id/txtEmail"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -97,7 +127,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="29%"/>
+                android:text="abc@gm.com"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -111,10 +141,10 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="@string/wind_speed"/>
+                android:text="On off"/>
 
             <TextView
-                android:id="@+id/windspeedTxt"
+                android:id="@+id/txtOnOff"
                 android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,18 +152,18 @@
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/black"
                 android:gravity="left"
-                android:text="9km/h"/>
+                android:text="On"/>
         </RelativeLayout>
 
 
         <Button
-            android:id="@+id/showBtn"
+            android:id="@+id/closeBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cornerRadius="16dp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/redLight"
             android:textStyle="bold"
-            android:text="@string/show_more_detail"/>
+            android:text="@string/close"/>
     </LinearLayout>
 
 </LinearLayout>

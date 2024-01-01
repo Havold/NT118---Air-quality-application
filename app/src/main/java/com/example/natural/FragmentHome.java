@@ -167,6 +167,12 @@ public class FragmentHome extends Fragment {
 
 //        fragmentProfile.setArguments(bundle);
 
+        languageIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChangeLanguageDialog();
+            }
+        });
         notificationIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -396,13 +402,6 @@ public class FragmentHome extends Fragment {
                         Toast.makeText(requireContext(),"Call API Error",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-        languageIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showChangeLanguageDialog();
-            }
-        });
 
     }
 

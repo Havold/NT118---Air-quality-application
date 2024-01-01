@@ -1,11 +1,16 @@
 package com.example.natural;
 
+import static com.example.natural.FragmentHome.convertTimestampToFormattedDate;
+
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,9 +26,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.natural.SQLite.DatabaseHelper;
 import com.example.natural.api.apiService_token;
+import com.example.natural.model.DateUtils;
+import com.example.natural.model.LightResponse;
 import com.example.natural.model.MapResponse;
 import com.example.natural.model.SharedViewModel;
+import com.example.natural.model.WeatherResponse;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,9 +53,13 @@ import retrofit2.Response;
 public class FragmentMap extends Fragment implements OnMapReadyCallback {
     GoogleMap gMap;
     FrameLayout map;
+    String assetId_Light = "6iWtSbgqMQsVq8RPkJJ9vo";
     Button showBtn;
     SharedViewModel sharedViewModel;
     String accessToken;
+    double brightness,colourTemp;
+    String email;
+    boolean onOff;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,11 +70,16 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         //         Khởi tạo ViewModel
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
+//         Nhận dữ liệu từ ViewModel
+        accessToken = sharedViewModel.getAccessToken();
+
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+
+        callAPILight();
 
         return view;
     }
@@ -113,11 +131,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         this.gMap.addMarker(new MarkerOptions()
                 .position(Weather)
                 .title("Default Weather")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.sunny_mini)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mini)));
         this.gMap.addMarker(new MarkerOptions()
                 .position(Light)
                 .title("Light")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_mini)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.sunny_mini)));
         this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
 
         // Cài đặt zoom và di chuyển camera đến vùng chứa các điểm
@@ -130,7 +148,13 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
         gMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
-                openInforDialog();
+                String tmp = marker.getTitle();
+                if (marker.getTitle().equals("Default Weather")) {
+                    openInforDialog();
+                }
+                else {
+                    openLightDialog();
+                }
                 return true;
             }
         });
@@ -158,6 +182,80 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
 //        gMap.getUiSettings().setCompassEnabled(true);
 //        gMap.setLatLngBoundsForCameraTarget(UITBounds);
 
+    }
+
+    private void callAPILight() {
+
+        apiService_token.api_token
+                .getAssetLight(assetId_Light,"Bearer " + accessToken)
+                .enqueue(new Callback<LightResponse>() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onResponse(Call<LightResponse> call, Response<LightResponse> response) {
+                        Toast.makeText(requireContext(),"Call API Success",Toast.LENGTH_SHORT).show();
+                        LightResponse lightResponse = response.body();
+                        if (lightResponse!=null) {
+                            brightness = lightResponse.getAttributes().getBrightness().getValue();
+                            colourTemp = lightResponse.getAttributes().getColourTemperature().getValue();
+                            email = lightResponse.getAttributes().getEmail().getValue();
+                            onOff = lightResponse.getAttributes().getOnOff().isValue();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LightResponse> call, Throwable t) {
+                        Toast.makeText(requireContext(),"Call API Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void openLightDialog() {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.infor_dialog_light);
+
+        TextView txtBright = dialog.findViewById(R.id.txtBright);
+        TextView txtColour = dialog.findViewById(R.id.txtColour);
+        TextView txtEmail = dialog.findViewById(R.id.txtEmail);
+        TextView txtOnOff = dialog.findViewById(R.id.txtOnOff);
+
+
+        // Thiết lập giá trị cho các TextView
+        txtBright.setText(String.valueOf(brightness));
+        txtColour.setText(String.valueOf(colourTemp));
+        txtEmail.setText(email);
+        if (onOff==true) {
+            txtOnOff.setText("On");
+        }
+        else {
+            txtOnOff.setText("Off");
+        }
+
+
+        Window window = dialog.getWindow();
+        if (window==null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity= Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+        dialog.setCancelable(true);
+
+        Button closeBtn = (Button) dialog.findViewById(R.id.closeBtn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+//                // Cập nhật item trong BottomNavigationView
+//                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNav);
+//                bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+            }
+        });
+        dialog.show();
     }
 
     private void openInforDialog() {

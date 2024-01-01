@@ -69,5 +69,12 @@
     <string name="hey_your_room_seems_a_bit_hot_turn_on_the_air_conditioner_for_more_comfort">Hey, your room seems a bit hot. Turn on the air conditioner for more comfort.</string>
     <string name="hey_your_room_seems_a_bit_damp_be_careful_not_to_catch_a_cold">Hey, your room seems a bit damp. Be careful not to get fungus!</string>
     <string name="hey_your_room_seems_quite_cold_turn_up_the_air_conditioner_temperature_to_avoid_colds">Hey, your room seems quite cold. Turn up the air conditioner temperature to avoid colds.</string>
+    <string name="brightness">Brightness (%)</string>
+    <string name="colour_temperature_k">Colour temperature (K)</string>
+    <string name="close">Close</string>
+    <string name="summary_information">Summary Information</string>
+    <string name="temperature">Temperature</string>
+    <string name="wind_speed">Wind speed</string>
+    <string name="show_more_detail">Show more detail</string>
 
 </resources>

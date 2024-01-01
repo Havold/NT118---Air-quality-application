@@ -1,5 +1,6 @@
 package com.example.natural.api;
 
+import com.example.natural.model.LightResponse;
 import com.example.natural.model.MapResponse;
 import com.example.natural.model.MapResponse;
 import com.example.natural.model.UserResponse;
@@ -49,6 +50,11 @@ public interface apiService_token {
 
     @GET("api/master/asset/{assetID}")
     Call<WeatherResponse> getAsset(
+            @Path("assetID") String assetID,
+            @Header("Authorization") String authorization);//, @Header("Authorization") String auth);
+
+    @GET("api/master/asset/{assetID}")
+    Call<LightResponse> getAssetLight(
             @Path("assetID") String assetID,
             @Header("Authorization") String authorization);//, @Header("Authorization") String auth);
 
