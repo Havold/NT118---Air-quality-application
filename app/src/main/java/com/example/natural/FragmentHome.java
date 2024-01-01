@@ -37,6 +37,9 @@ import android.os.PersistableBundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,12 +72,17 @@ public class FragmentHome extends Fragment {
     SharedViewModel sharedViewModel;
     TextView tv_update,tv_place,tv_temp,tv_wind,tv_humidity,tv_rainfall,tv_date,tv_weather;
     apiService_token apiServiceToken;
-    TextView tv_windTitle, tv_humidityTitle, tv_rainfallTitle;
+    TextView tv_windTitle, tv_humidityTitle, tv_rainfallTitle,tv_iconDegree;
     boolean stateWeather,stateNight;
 
     boolean highTemp,highHumid,highWind,highRain,lowTemp;
 
     ImageView night_bg,rectangle_smooth;
+
+    ImageView windIcon,humidIcon,rainfallIcon;
+
+    private Animation.AnimationListener animationListener;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -99,8 +107,10 @@ public class FragmentHome extends Fragment {
         accessToken = sharedViewModel.getAccessToken();
         onNotification = sharedViewModel.isOnNotification();
 
-
-
+        tv_iconDegree = view.findViewById(R.id.iconDegree);
+        windIcon = view.findViewById(R.id.windIcon);
+        humidIcon = view.findViewById(R.id.humidityIcon);
+        rainfallIcon = view.findViewById(R.id.rainfallIcon);
         tv_place = view.findViewById(R.id.locationTxt);
         tv_temp = view.findViewById(R.id.temperate);
         tv_wind = view.findViewById(R.id.windTxt);
@@ -166,6 +176,27 @@ public class FragmentHome extends Fragment {
 //        fragmentProfile.setArguments(bundle);
 
 //        fragmentProfile.setArguments(bundle);
+
+        // Animation
+        handleImageAnimationXml(weatherIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(windIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(humidIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(rainfallIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(locationRed,R.anim.anim_zoom_in);
+        handleImageAnimationXml(locationBlue,R.anim.anim_zoom_in);
+        handleImageAnimationXml(notificationIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(notificationIconOff,R.anim.anim_zoom_in);
+        handleImageAnimationXml(userIcon,R.anim.anim_zoom_in);
+        handleImageAnimationXml(languageIcon,R.anim.anim_zoom_in);
+
+        handleTextAnimationXml(tv_iconDegree,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_temp,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_weather,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_date,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_wind,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_humidity,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_rainfall,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_place,R.anim.anim_fade_in_delay);
 
         languageIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -494,5 +525,56 @@ public class FragmentHome extends Fragment {
     private void onClickStopScheduleJob() {
         JobScheduler jobScheduler = (JobScheduler) requireContext().getSystemService(JOB_SCHEDULER_SERVICE);
         jobScheduler.cancel(JOB_ID);
+    }
+
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
+    }
+
+    private void handleTextAnimationXml(TextView txt, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        txt.startAnimation(animation);
     }
 }

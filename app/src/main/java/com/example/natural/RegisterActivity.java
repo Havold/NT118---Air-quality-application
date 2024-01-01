@@ -14,6 +14,8 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -39,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText edtName, edtEmail, edtPass, edtConfirmPass;
     private  Button signupBtn;
     ImageView languageIcon;
+    private Animation.AnimationListener animationListener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
         TextView login = findViewById(R.id.LogIn);
         ImageView back = findViewById(R.id.LeftArrow);
         languageIcon = findViewById(R.id.languageIcon);
+
+
+        handleImageAnimationXml(languageIcon,R.anim.anim_zoom_in);
+        handleButtonAnimationXml(signupBtn,R.anim.anim_zoom_in);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,6 +229,44 @@ public class RegisterActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
         editor.apply();
+    }
 
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(RegisterActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
     }
 }

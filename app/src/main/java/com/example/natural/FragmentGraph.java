@@ -9,11 +9,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natural.SQLite.DatabaseHelper;
@@ -51,6 +55,8 @@ public class FragmentGraph extends Fragment {
     ArrayAdapter<String> adapterItemsTime;
     Button showChart;
     boolean flagStart=false,flagEnd=false;
+    private Animation.AnimationListener animationListener;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -70,6 +76,10 @@ public class FragmentGraph extends Fragment {
         selectStartingTxt = view.findViewById(R.id.selectStartingTxt);
         selectEndingTxt = view.findViewById(R.id.selectEndingTxt);
         showChart = view.findViewById(R.id.showChartBtn);
+
+        //Animation
+        handleButtonAnimationXml(showChart,R.anim.anim_zoom_in);
+
 
         adapterItems = new ArrayAdapter<String>(requireContext(), R.layout.list_item,items);
         adapterItemsTime = new ArrayAdapter<String>(requireContext(), R.layout.list_item,itemsTime);
@@ -299,4 +309,54 @@ public class FragmentGraph extends Fragment {
         datePickerDialog.show();
     }
 
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
+    }
+
+    private void handleTextAnimationXml(TextView txt, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        txt.startAnimation(animation);
+    }
 }

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,9 +35,10 @@ public class MainPageActivity extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     Button googleBtn;
-    ImageView languageIcon;
+    ImageView languageIcon,logo;
     TextView tv_forget;
     SharedViewModel sharedViewModel;
+    private Animation.AnimationListener animationListener;
     @SuppressLint("MissingInflatedId")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +52,19 @@ public class MainPageActivity extends AppCompatActivity {
         Button signIn_btn = (Button) findViewById((R.id.signIn_btn));
         Button signUp_btn = (Button) findViewById(R.id.SignUpBtn);
         languageIcon = (ImageView) findViewById(R.id.languageIcon);
+        logo = findViewById(R.id.logo);
+
+        initVariables();
+
+        // HandleClickAnimationXML
+        handleImageAnimationXml(logo, R.anim.anim_zoom_in);
+//        handleImageAnimationXml(logo, R.anim.anim_zoom_out);
+        handleButtonAnimationXml(signIn_btn, R.anim.anim_fade_in);
+        handleButtonAnimationXml(signUp_btn, R.anim.anim_fade_in);
+        handleButtonAnimationXml(googleBtn, R.anim.anim_fade_in);
+        handleImageAnimationXml(languageIcon,R.anim.anim_zoom_in);
+
+
         signIn_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +161,44 @@ public class MainPageActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
         editor.apply();
-
     }
 
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(MainPageActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(MainPageActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
+    }
 }

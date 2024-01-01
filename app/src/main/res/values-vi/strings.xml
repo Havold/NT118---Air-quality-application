@@ -71,4 +71,11 @@
     <string name="hey_your_room_seems_a_bit_hot_turn_on_the_air_conditioner_for_more_comfort">Này, căn phòng của bạn có vẻ hơi nóng. Bật điều hòa để thoải mái hơn.</string>
     <string name="hey_your_room_seems_a_bit_damp_be_careful_not_to_catch_a_cold">Này, phòng của bạn có vẻ hơi ẩm ướt. Hãy cẩn thận kẻo bị nấm</string>
     <string name="hey_your_room_seems_quite_cold_turn_up_the_air_conditioner_temperature_to_avoid_colds">Này, phòng của bạn có vẻ khá lạnh. Tăng nhiệt độ điều hòa để tránh cảm lạnh.</string>
+    <string name="brightness">Độ sáng (%)</string>
+    <string name="colour_temperature_k">Nhiệt độ màu (K)</string>
+    <string name="close">Đóng</string>
+    <string name="summary_information">Thông tin tóm tắt</string>
+    <string name="temperature">Nhiệt độ</string>
+    <string name="wind_speed">Sức gió</string>
+    <string name="show_more_detail">Xem chi tiết</string>
 </resources>

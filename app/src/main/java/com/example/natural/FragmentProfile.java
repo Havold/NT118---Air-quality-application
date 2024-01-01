@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +46,9 @@ public class FragmentProfile extends Fragment {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     apiService_token apiServiceToken;
+    ImageView userIcon;
     boolean stateGoogle;
+    private Animation.AnimationListener animationListener;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -65,6 +70,7 @@ public class FragmentProfile extends Fragment {
         tv_email = view.findViewById(R.id.mailTxt);
         tv_username = view.findViewById(R.id.usernameTxt);
         tv_password = view.findViewById(R.id.pwdTxt);
+        userIcon = view.findViewById(R.id.avatar);
 
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(requireContext(),gso);
@@ -72,6 +78,16 @@ public class FragmentProfile extends Fragment {
         if (accessToken!=null) {
             callUserAPI(accessToken);
         }
+
+        // Animation
+        handleImageAnimationXml(userIcon,R.anim.anim_zoom_in);
+        handleTextAnimationXml(tv_name,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_date,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_email,R.anim.anim_fade_in_delay);
+        handleTextAnimationXml(tv_password,R.anim.anim_fade_in_delay);
+
+        handleTextAnimationXml(tv_username,R.anim.anim_fade_in_delay);
+        handleButtonAnimationXml(logoutBtn,R.anim.anim_zoom_in);
 
 //        // Lấy Bundle từ Fragment
 //        Bundle bundle = getArguments();
@@ -148,5 +164,56 @@ public class FragmentProfile extends Fragment {
                 }
             }
         });
+    }
+
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
+    }
+
+    private void handleTextAnimationXml(TextView txt, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(requireContext(),animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        txt.startAnimation(animation);
     }
 }

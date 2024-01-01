@@ -13,6 +13,8 @@ import android.graphics.Bitmap;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -29,6 +31,8 @@ public class ResetPassword extends AppCompatActivity {
     Button submitBtn;
     ImageView languageIcon,backIcon;
     WebView webViewReset;
+    private Animation.AnimationListener animationListener;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class ResetPassword extends AppCompatActivity {
         webViewReset = findViewById(R.id.webViewReset);
         backIcon = findViewById(R.id.left_arrow);
 
+        handleButtonAnimationXml(submitBtn,R.anim.anim_zoom_in);
         backIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,5 +129,44 @@ public class ResetPassword extends AppCompatActivity {
     private void ShowError(EditText edtInput, String s) {
         edtInput.setError(s);
         edtInput.requestFocus();
+    }
+
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(ResetPassword.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(ResetPassword.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
     }
 }

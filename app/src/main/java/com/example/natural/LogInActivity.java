@@ -12,6 +12,8 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -39,6 +41,8 @@ public class LogInActivity extends AppCompatActivity {
     TextView tv_forget;
     EditText user,pwd;
     SharedPreferences.Editor editor;
+    private Animation.AnimationListener animationListener;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,9 @@ public class LogInActivity extends AppCompatActivity {
         loadingAlert = new LoadingAlert(LogInActivity.this);
         checkRemember = findViewById(R.id.checkRemember);
         tv_forget = findViewById(R.id.forgetTxt);
+
+        handleButtonAnimationXml(signinBtn,R.anim.anim_zoom_in);
+        handleImageAnimationXml(languageIcon,R.anim.anim_zoom_in);
 
         // Kiểm tra trạng thái "Remember Me"
         if (rememberMe) {
@@ -205,6 +212,44 @@ public class LogInActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("Settings", MODE_PRIVATE).edit();
         editor.putString("My_Lang", lang);
         editor.apply();
+    }
 
+    private void initVariables() {
+        animationListener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+    }
+
+    private void handleButtonAnimationXml(Button btn, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(LogInActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        btn.startAnimation(animation);
+    }
+
+    private void handleImageAnimationXml(ImageView img, int animId)
+    {
+        // HandleClickAnimationXML
+        // Load the Animation
+        final Animation animation = AnimationUtils.loadAnimation(LogInActivity.this,animId);
+
+        // set animation listener
+        animation.setAnimationListener(animationListener);
+
+        img.startAnimation(animation);
     }
 }
