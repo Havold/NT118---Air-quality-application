@@ -78,4 +78,5 @@
     <string name="temperature">Nhiệt độ</string>
     <string name="wind_speed">Sức gió</string>
     <string name="show_more_detail">Xem chi tiết</string>
+    <string name="light">Ánh sáng</string>
 </resources>

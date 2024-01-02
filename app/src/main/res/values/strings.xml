@@ -76,5 +76,6 @@
     <string name="temperature">Temperature</string>
     <string name="wind_speed">Wind speed</string>
     <string name="show_more_detail">Show more detail</string>
+    <string name="light">Light</string>
 
 </resources>

@@ -33,7 +33,7 @@
                 android:id="@+id/txtLight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Light"
+                android:text="@string/light"
                 android:padding="12dp"
                 android:textColor="@color/white"
                 android:textSize="24dp"
