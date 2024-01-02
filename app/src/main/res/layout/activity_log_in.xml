@@ -78,11 +78,20 @@
         android:layout_height="wrap_content"
         android:hint="@string/username"
         android:background="@drawable/no_underline"
-        android:ems="12"
+        android:ems="11"
         android:textSize="20dp"
         android:layout_below="@id/textEnter"
         android:layout_marginTop="68dp"
         android:layout_marginLeft="60dp"
+        />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/baseline_person_green"
+        android:layout_toRightOf="@id/edtUsr"
+        android:layout_below="@id/textEnter"
+        android:layout_marginTop="68dp"
         />
 
     <EditText
@@ -91,7 +100,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:background="@drawable/no_underline"
-        android:ems="12"
+        android:ems="11"
         android:textSize="20dp"
         android:inputType="textPassword"
         android:layout_below="@id/frame_1"
@@ -99,6 +108,14 @@
         android:layout_marginLeft="60dp"
         />
 
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/baseline_lock_24"
+        android:layout_toRightOf="@id/edtPwd"
+        android:layout_below="@id/frame_1"
+        android:layout_marginTop="24dp"
+        />
 
     <CheckBox
         android:id="@+id/checkRemember"

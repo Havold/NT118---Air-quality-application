@@ -184,8 +184,8 @@ public class FragmentHome extends Fragment {
         handleImageAnimationXml(rainfallIcon,R.anim.anim_zoom_in);
         handleImageAnimationXml(locationRed,R.anim.anim_zoom_in);
         handleImageAnimationXml(locationBlue,R.anim.anim_zoom_in);
-        handleImageAnimationXml(notificationIcon,R.anim.anim_zoom_in);
-        handleImageAnimationXml(notificationIconOff,R.anim.anim_zoom_in);
+//        handleImageAnimationXml(notificationIcon,R.anim.anim_zoom_in);
+//        handleImageAnimationXml(notificationIconOff,R.anim.anim_zoom_in);
         handleImageAnimationXml(userIcon,R.anim.anim_zoom_in);
         handleImageAnimationXml(languageIcon,R.anim.anim_zoom_in);
 
