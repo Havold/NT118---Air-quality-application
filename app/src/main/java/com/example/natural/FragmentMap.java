@@ -136,7 +136,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
                 .position(Light)
                 .title("Light")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.sunny_mini)));
-        this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin"));
+        this.gMap.addMarker(new MarkerOptions().position(UIT).title("Trường Đại học Công nghệ Thông tin").icon(BitmapDescriptorFactory.fromResource(R.drawable.logo_uit_mini)));
 
         // Cài đặt zoom và di chuyển camera đến vùng chứa các điểm
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -152,8 +152,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
                 if (marker.getTitle().equals("Default Weather")) {
                     openInforDialog();
                 }
-                else {
+                else if (marker.getTitle().equals("Light")) {
                     openLightDialog();
+                }
+                else {
+                    openUITDialog();
                 }
                 return true;
             }
@@ -207,6 +210,37 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback {
                         Toast.makeText(requireContext(),"Call API Error",Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void openUITDialog() {
+        final Dialog dialog = new Dialog(requireContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.infor_dialog_uit);
+
+        Window window = dialog.getWindow();
+        if (window==null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity= Gravity.CENTER;
+        window.setAttributes(windowAttributes);
+        dialog.setCancelable(true);
+
+        Button closeBtn = (Button) dialog.findViewById(R.id.closeBtn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+//                // Cập nhật item trong BottomNavigationView
+//                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNav);
+//                bottomNavigationView.setSelectedItemId(R.id.bottom_home);
+            }
+        });
+        dialog.show();
     }
 
     private void openLightDialog() {

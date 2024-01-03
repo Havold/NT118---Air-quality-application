@@ -79,40 +79,40 @@ public class HomeActivity extends AppCompatActivity implements FragmentInteracti
                     .commit();
         }
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager2.setVisibility(View.VISIBLE);
-                frameLayout.setVisibility(View.GONE);
-                viewPager2.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                viewPager2.setVisibility(View.VISIBLE);
-                frameLayout.setVisibility(View.GONE);
-            }
-
-        });
-
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                        tabLayout.getTabAt(position).select();
-                }
-                super.onPageSelected(position);
-            }
-        });
+//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager2.setVisibility(View.VISIBLE);
+//                frameLayout.setVisibility(View.GONE);
+//                viewPager2.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                viewPager2.setVisibility(View.VISIBLE);
+//                frameLayout.setVisibility(View.GONE);
+//            }
+//
+//        });
+//
+//        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+//            @Override
+//            public void onPageSelected(int position) {
+//                switch (position) {
+//                    case 0:
+//                    case 1:
+//                    case 2:
+//                    case 3:
+//                        tabLayout.getTabAt(position).select();
+//                }
+//                super.onPageSelected(position);
+//            }
+//        });
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")

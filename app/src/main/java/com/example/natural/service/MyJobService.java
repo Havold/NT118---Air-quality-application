@@ -17,6 +17,8 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.natural.HomeActivity;
+import com.example.natural.LogInActivity;
 import com.example.natural.model.DateUtils;
 import com.example.natural.FragmentHome;
 import com.example.natural.R;
@@ -125,6 +127,7 @@ public class MyJobService extends JobService {
             }
         }
 
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), chanelID);
         builder.setSmallIcon(R.drawable.baseline_notifications_active_24)
                 .setContentTitle("Reminder Weather")
@@ -132,7 +135,7 @@ public class MyJobService extends JobService {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Intent intent = new Intent(getApplicationContext(), FragmentHome.class);
+        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);

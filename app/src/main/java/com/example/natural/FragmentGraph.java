@@ -266,7 +266,6 @@ public class FragmentGraph extends Fragment {
 //                                }
 //                            }
                         }
-                        // Xử lý dữ liệu ở đây
                     } while (cursor.moveToNext());
                 }
                 cursor.close();

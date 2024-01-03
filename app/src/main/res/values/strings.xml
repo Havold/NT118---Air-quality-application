@@ -77,5 +77,6 @@
     <string name="wind_speed">Wind speed</string>
     <string name="show_more_detail">Show more detail</string>
     <string name="light">Light</string>
+    <string name="don_t_have_any_information_about_this_marker">Don\'t have any information about this marker!</string>
 
 </resources>

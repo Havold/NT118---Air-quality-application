@@ -79,4 +79,6 @@
     <string name="wind_speed">Sức gió</string>
     <string name="show_more_detail">Xem chi tiết</string>
     <string name="light">Ánh sáng</string>
+    <string name="don_t_have_any_information_about_this_marker">Không có bất cứ thông tin gì về điểm này!</string>
+
 </resources>
