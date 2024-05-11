@@ -28,7 +28,7 @@ tag to
 - Supports 2 languages: __Vietnamese__ and **English** .
 ## System Requirements
 - Android Studio Giraffe | 2022.3.1 Patch 2 (Recommend).
-- JDK: 1.8.0. (Recommend).__
+- JDK: 1.8.0. (Recommend).
 - SDK: 34 (Recommend).
 - Internet connection.
 ## How to run
